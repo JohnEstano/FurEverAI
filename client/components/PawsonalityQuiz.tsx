@@ -1,0 +1,194 @@
+'use client'
+import React, { useState } from 'react'
+
+const PAWSONALITY_TYPES = {
+  'Active Adventurer': { emoji: '⛰️', description: 'High energy, experienced, needs active pets', color: 'from-orange-500 to-red-500' },
+  'Cozy Companion': { emoji: '☕', description: 'Low energy, novice, perfect for calm pets', color: 'from-amber-500 to-yellow-500' },
+  'Social Butterfly': { emoji: '🦋', description: 'Very social, loves outgoing pets', color: 'from-pink-500 to-rose-500' },
+  'Quiet Caretaker': { emoji: '🌙', description: 'Reserved, ideal for shy or independent pets', color: 'from-indigo-500 to-purple-500' },
+  'Confident Guardian': { emoji: '🛡️', description: 'Experienced, great for large breeds', color: 'from-blue-500 to-cyan-500' },
+  'Gentle Nurturer': { emoji: '💚', description: 'Empathetic, perfect for special needs pets', color: 'from-green-500 to-emerald-500' },
+  'Playful Enthusiast': { emoji: '🎾', description: 'High energy, loves young playful pets', color: 'from-yellow-500 to-lime-500' },
+  'Balanced Buddy': { emoji: '⚖️', description: 'Adaptable, matches with most average pets', color: 'from-gray-500 to-slate-500' },
+}
+
+const QUIZ_QUESTIONS = [
+  {
+    question: "What's your ideal weekend activity?",
+    options: [
+      { text: "Hiking or outdoor adventure", type: 'Active Adventurer' },
+      { text: "Reading at home with coffee", type: 'Cozy Companion' },
+      { text: "Hosting friends for a party", type: 'Social Butterfly' },
+      { text: "Quiet meditation or solo time", type: 'Quiet Caretaker' },
+    ]
+  },
+  {
+    question: "How do you feel about daily exercise?",
+    options: [
+      { text: "Love it! 2+ hours minimum", type: 'Active Adventurer' },
+      { text: "A short walk is enough", type: 'Cozy Companion' },
+      { text: "Group fitness classes are fun!", type: 'Social Butterfly' },
+      { text: "Gentle yoga at home", type: 'Quiet Caretaker' },
+    ]
+  },
+  {
+    question: "Your pet experience level?",
+    options: [
+      { text: "Expert - I've trained many dogs", type: 'Confident Guardian' },
+      { text: "Some experience with pets", type: 'Balanced Buddy' },
+      { text: "First time pet owner", type: 'Cozy Companion' },
+      { text: "Experienced with special needs", type: 'Gentle Nurturer' },
+    ]
+  },
+  {
+    question: "Living situation?",
+    options: [
+      { text: "House with big yard", type: 'Active Adventurer' },
+      { text: "Small apartment", type: 'Cozy Companion' },
+      { text: "Always have guests over", type: 'Social Butterfly' },
+      { text: "Quiet neighborhood", type: 'Quiet Caretaker' },
+    ]
+  },
+  {
+    question: "Ideal pet personality?",
+    options: [
+      { text: "Energetic and playful", type: 'Playful Enthusiast' },
+      { text: "Calm and cuddly", type: 'Cozy Companion' },
+      { text: "Friendly with everyone", type: 'Social Butterfly' },
+      { text: "Independent and chill", type: 'Quiet Caretaker' },
+    ]
+  },
+]
+
+export default function PawsonalityQuiz() {
+  const [currentQuestion, setCurrentQuestion] = useState(0)
+  const [answers, setAnswers] = useState<string[]>([])
+  const [result, setResult] = useState<string | null>(null)
+  const [showQuiz, setShowQuiz] = useState(false)
+
+  const handleAnswer = (pawsonalityType: string) => {
+    const newAnswers = [...answers, pawsonalityType]
+    setAnswers(newAnswers)
+
+    if (currentQuestion < QUIZ_QUESTIONS.length - 1) {
+      setCurrentQuestion(currentQuestion + 1)
+    } else {
+      // Calculate result (most common type)
+      const typeCounts = newAnswers.reduce((acc, type) => {
+        acc[type] = (acc[type] || 0) + 1
+        return acc
+      }, {} as Record<string, number>)
+      
+      const resultType = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])[0][0]
+      setResult(resultType)
+    }
+  }
+
+  const resetQuiz = () => {
+    setCurrentQuestion(0)
+    setAnswers([])
+    setResult(null)
+    setShowQuiz(false)
+  }
+
+  if (!showQuiz && !result) {
+    return (
+      <section id="quiz" className="py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-5xl font-bold mb-6 text-gray-800">Discover Your Pawsonality</h2>
+          <p className="text-xl text-gray-600 mb-8">
+            Take our 5-minute quiz to find your perfect pet match powered by AI
+          </p>
+          <button
+            onClick={() => setShowQuiz(true)}
+            className="px-10 py-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold text-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+          >
+            Start Quiz 🎯
+          </button>
+          
+          {/* Preview Types */}
+          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {Object.entries(PAWSONALITY_TYPES).map(([name, data]) => (
+              <div key={name} className="p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div className="text-4xl mb-2">{data.emoji}</div>
+                <p className="text-sm font-semibold text-gray-800">{name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (result) {
+    const resultData = PAWSONALITY_TYPES[result as keyof typeof PAWSONALITY_TYPES]
+    return (
+      <section id="quiz" className="py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen flex items-center">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="bg-white rounded-3xl shadow-2xl p-12">
+            <div className="text-8xl mb-6 animate-bounce">{resultData.emoji}</div>
+            <h2 className="text-4xl font-bold mb-4 text-gray-800">You're a</h2>
+            <h3 className={`text-5xl font-black mb-6 bg-gradient-to-r ${resultData.color} bg-clip-text text-transparent`}>
+              {result}!
+            </h3>
+            <p className="text-xl text-gray-600 mb-8">{resultData.description}</p>
+            
+            <div className="space-y-4">
+              <button
+                onClick={() => document.getElementById('swipe')?.scrollIntoView({ behavior: 'smooth' })}
+                className="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                Find Your Perfect Match 🐾
+              </button>
+              <button
+                onClick={resetQuiz}
+                className="w-full px-8 py-4 bg-gray-100 text-gray-700 rounded-full font-semibold text-lg hover:bg-gray-200 transition-all duration-300"
+              >
+                Retake Quiz
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  return (
+    <section id="quiz" className="py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen flex items-center">
+      <div className="max-w-2xl mx-auto w-full">
+        {/* Progress Bar */}
+        <div className="mb-8">
+          <div className="flex justify-between text-sm text-gray-600 mb-2">
+            <span>Question {currentQuestion + 1} of {QUIZ_QUESTIONS.length}</span>
+            <span>{Math.round(((currentQuestion + 1) / QUIZ_QUESTIONS.length) * 100)}%</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-3">
+            <div 
+              className="bg-gradient-to-r from-purple-600 to-pink-600 h-3 rounded-full transition-all duration-500"
+              style={{ width: `${((currentQuestion + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Question Card */}
+        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
+          <h3 className="text-3xl font-bold mb-8 text-gray-800">
+            {QUIZ_QUESTIONS[currentQuestion].question}
+          </h3>
+          
+          <div className="space-y-4">
+            {QUIZ_QUESTIONS[currentQuestion].options.map((option, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleAnswer(option.type)}
+                className="w-full p-6 text-left bg-gray-50 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 rounded-2xl border-2 border-gray-200 hover:border-purple-400 transition-all duration-300 transform hover:scale-105"
+              >
+                <span className="text-lg font-semibold text-gray-800">{option.text}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
