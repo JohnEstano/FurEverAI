@@ -28,17 +28,17 @@ export default function Page() {
       <SwipeCards />
 
       {/* Footer */}
-      <footer className="bg-gray-50 border-t border-gray-200 py-12 px-4">
+      <footer className="bg-gray-50 border-t border-gray-200 py-8 sm:py-10 md:py-12 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+          <div className="text-center mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1.5 sm:mb-2">
               FurEver.AI
             </h3>
-            <p className="text-gray-600">
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 px-4">
               Powered by PawTech Inc. • Making perfect matches since 2025
             </p>
           </div>
-          <div className="flex justify-center gap-8 text-sm text-gray-600">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 text-xs sm:text-sm text-gray-600">
             <a href="#" className="hover:text-blue-600 transition">About</a>
             <a href="#" className="hover:text-blue-600 transition">For Shelters</a>
             <a href="#" className="hover:text-blue-600 transition">Privacy</a>

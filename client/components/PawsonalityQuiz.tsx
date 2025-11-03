@@ -93,25 +93,27 @@ export default function PawsonalityQuiz() {
 
   if (!showQuiz && !result) {
     return (
-      <section id="quiz" className="py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100">
+      <section id="quiz" className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl font-bold mb-6 text-gray-800">Discover Your Pawsonality</h2>
-          <p className="text-xl text-gray-600 mb-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-gray-800 px-4">
+            Discover Your Pawsonality
+          </h2>
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 px-4">
             Take our 5-minute quiz to find your perfect pet match powered by AI
           </p>
           <button
             onClick={() => setShowQuiz(true)}
-            className="px-10 py-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold text-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+            className="px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-bold text-base sm:text-lg md:text-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
           >
             Start Quiz 🎯
           </button>
           
           {/* Preview Types */}
-          <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="mt-8 sm:mt-10 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {Object.entries(PAWSONALITY_TYPES).map(([name, data]) => (
-              <div key={name} className="p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                <div className="text-4xl mb-2">{data.emoji}</div>
-                <p className="text-sm font-semibold text-gray-800">{name}</p>
+              <div key={name} className="p-3 sm:p-4 bg-white rounded-lg sm:rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                <div className="text-3xl sm:text-4xl mb-1.5 sm:mb-2">{data.emoji}</div>
+                <p className="text-xs sm:text-sm font-semibold text-gray-800 leading-tight">{name}</p>
               </div>
             ))}
           </div>
@@ -123,26 +125,26 @@ export default function PawsonalityQuiz() {
   if (result) {
     const resultData = PAWSONALITY_TYPES[result as keyof typeof PAWSONALITY_TYPES]
     return (
-      <section id="quiz" className="py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen flex items-center">
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-white rounded-3xl shadow-2xl p-12">
-            <div className="text-8xl mb-6 animate-bounce">{resultData.emoji}</div>
-            <h2 className="text-4xl font-bold mb-4 text-gray-800">You're a</h2>
-            <h3 className={`text-5xl font-black mb-6 bg-gradient-to-r ${resultData.color} bg-clip-text text-transparent`}>
+      <section id="quiz" className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen flex items-center">
+        <div className="max-w-2xl mx-auto text-center w-full">
+          <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12">
+            <div className="text-5xl sm:text-6xl md:text-8xl mb-4 sm:mb-6 animate-bounce">{resultData.emoji}</div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-800">You're a</h2>
+            <h3 className={`text-3xl sm:text-4xl md:text-5xl font-black mb-4 sm:mb-6 bg-gradient-to-r ${resultData.color} bg-clip-text text-transparent px-4`}>
               {result}!
             </h3>
-            <p className="text-xl text-gray-600 mb-8">{resultData.description}</p>
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 px-4">{resultData.description}</p>
             
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <button
                 onClick={() => document.getElementById('swipe')?.scrollIntoView({ behavior: 'smooth' })}
-                className="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 Find Your Perfect Match 🐾
               </button>
               <button
                 onClick={resetQuiz}
-                className="w-full px-8 py-4 bg-gray-100 text-gray-700 rounded-full font-semibold text-lg hover:bg-gray-200 transition-all duration-300"
+                className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-gray-100 text-gray-700 rounded-full font-semibold text-base sm:text-lg hover:bg-gray-200 transition-all duration-300"
               >
                 Retake Quiz
               </button>
@@ -154,36 +156,36 @@ export default function PawsonalityQuiz() {
   }
 
   return (
-    <section id="quiz" className="py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen flex items-center">
+    <section id="quiz" className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen flex items-center">
       <div className="max-w-2xl mx-auto w-full">
         {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex justify-between text-sm text-gray-600 mb-2">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex justify-between text-xs sm:text-sm text-gray-600 mb-2">
             <span>Question {currentQuestion + 1} of {QUIZ_QUESTIONS.length}</span>
             <span>{Math.round(((currentQuestion + 1) / QUIZ_QUESTIONS.length) * 100)}%</span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-3">
+          <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3">
             <div 
-              className="bg-gradient-to-r from-purple-600 to-pink-600 h-3 rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 sm:h-3 rounded-full transition-all duration-500"
               style={{ width: `${((currentQuestion + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
             />
           </div>
         </div>
 
         {/* Question Card */}
-        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12">
-          <h3 className="text-3xl font-bold mb-8 text-gray-800">
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12">
+          <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-gray-800 leading-tight">
             {QUIZ_QUESTIONS[currentQuestion].question}
           </h3>
           
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {QUIZ_QUESTIONS[currentQuestion].options.map((option, idx) => (
               <button
                 key={idx}
                 onClick={() => handleAnswer(option.type)}
-                className="w-full p-6 text-left bg-gray-50 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 rounded-2xl border-2 border-gray-200 hover:border-purple-400 transition-all duration-300 transform hover:scale-105"
+                className="w-full p-4 sm:p-5 md:p-6 text-left bg-gray-50 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 rounded-xl sm:rounded-2xl border-2 border-gray-200 hover:border-purple-400 transition-all duration-300 transform hover:scale-[1.02] sm:hover:scale-105 active:scale-95"
               >
-                <span className="text-lg font-semibold text-gray-800">{option.text}</span>
+                <span className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 leading-snug">{option.text}</span>
               </button>
             ))}
           </div>

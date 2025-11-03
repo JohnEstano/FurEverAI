@@ -31,20 +31,20 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-12 sm:py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 sm:mb-3">
             How It Works
           </h2>
-          <p className="text-base text-gray-600 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto px-4">
             Find your perfect pet companion in four simple steps
           </p>
         </div>
 
         {/* Steps Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {STEPS.map((step, idx) => (
             <motion.div
               key={idx}
@@ -55,7 +55,7 @@ export default function HowItWorks() {
               className="flex flex-col"
             >
               {/* Image Card with Sharp Color Background */}
-              <div className={`${step.color} rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 mb-4 aspect-square group`}>
+              <div className={`${step.color} rounded-lg sm:rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 mb-3 sm:mb-4 aspect-square group`}>
                 <img
                   src={step.image}
                   alt={step.title}
@@ -64,11 +64,11 @@ export default function HowItWorks() {
               </div>
 
               {/* Text Content Outside Card */}
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
+              <div className="flex-1 px-2 sm:px-0">
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1.5 sm:mb-2">
                   {step.title}
                 </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                   {step.description}
                 </p>
               </div>

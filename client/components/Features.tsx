@@ -55,18 +55,18 @@ const FEATURES = [
 
 export default function Features() {
   return (
-    <section className="py-20 md:py-32 bg-white">
+    <section className="py-12 sm:py-16 md:py-20 lg:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <div className="text-center mb-8 sm:mb-12 md:mb-16">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4 px-4">
             Powered by Six AI Algorithms
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-3xl mx-auto px-4">
             Our sophisticated machine learning system ensures perfect matches through multi-layered analysis
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {FEATURES.map((feature, idx) => (
             <motion.div
               key={idx}
@@ -76,15 +76,15 @@ export default function Features() {
               transition={{ delay: idx * 0.08 }}
               className="group"
             >
-              <div className={`bg-gradient-to-br ${feature.gradient} rounded-2xl p-8 hover:shadow-lg transition-all duration-300 h-full border border-gray-100`}>
-                <div className={`w-14 h-14 ${feature.iconBg} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <span className="text-3xl">{feature.icon}</span>
+              <div className={`bg-gradient-to-br ${feature.gradient} rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 hover:shadow-lg transition-all duration-300 h-full border border-gray-100`}>
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 ${feature.iconBg} rounded-lg sm:rounded-xl flex items-center justify-center mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                  <span className="text-2xl sm:text-3xl">{feature.icon}</span>
                 </div>
-                <div className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">
+                <div className="text-[10px] sm:text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1.5 sm:mb-2">
                   {feature.subtitle}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-sm text-gray-700 leading-relaxed">{feature.description}</p>
+                <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3">{feature.title}</h3>
+                <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">{feature.description}</p>
               </div>
             </motion.div>
           ))}

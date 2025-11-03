@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { Menu, X } from 'lucide-react'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,36 +30,81 @@ export default function Navbar() {
             Furever.ai
           </Link>
 
-          {/* Navigation Items */}
-          <div className="flex items-center gap-8">
+          {/* Desktop Navigation Items */}
+          <div className="hidden md:flex items-center gap-6 lg:gap-8">
             <Link
               href="/"
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              className="text-gray-700 hover:text-blue-600 transition-colors font-medium text-sm lg:text-base"
             >
               Home
             </Link>
             <Link
               href="/about"
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              className="text-gray-700 hover:text-blue-600 transition-colors font-medium text-sm lg:text-base"
             >
               About
             </Link>
             <Link
               href="/about#faq"
-              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+              className="text-gray-700 hover:text-blue-600 transition-colors font-medium text-sm lg:text-base"
             >
               FAQ's
             </Link>
 
-            {/* Match Now Button */}
-            <button
-              onClick={() => document.getElementById('quiz')?.scrollIntoView({ behavior: 'smooth' })}
-              className="px-6 py-2 bg-zinc-900 text-white rounded-md font-medium hover:bg-zinc-800 transition-colors"
+            {/* Browse Pets Button */}
+            <Link
+              href="/browse"
+              className="px-4 lg:px-6 py-2 bg-zinc-900 text-white rounded-md font-medium hover:bg-zinc-800 transition-colors text-sm lg:text-base"
             >
               Browse Pets
-            </button>
+            </Link>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden py-4 border-t border-gray-200">
+            <div className="flex flex-col space-y-3">
+              <Link
+                href="/"
+                className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Home
+              </Link>
+              <Link
+                href="/about"
+                className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                About
+              </Link>
+              <Link
+                href="/about#faq"
+                className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors font-medium"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                FAQ's
+              </Link>
+              <Link
+                href="/browse"
+                className="mx-4 px-6 py-3 bg-zinc-900 text-white rounded-md font-medium hover:bg-zinc-800 transition-colors text-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Browse Pets
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   )
