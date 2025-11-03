@@ -17,10 +17,7 @@ export default function Page() {
 
       {/* How It Works Section */}
       <HowItWorks />
-
-      {/* Scroll Stack - ReactBits Style */}
-      <ScrollStack />
-
+      
       {/* Features Grid */}
       <Features />
 

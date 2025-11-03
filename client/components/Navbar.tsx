@@ -25,19 +25,25 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
           <Link href="/" className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors">
-            FurEver.AI
+            Furever.ai
           </Link>
 
           {/* Navigation Items */}
           <div className="flex items-center gap-8">
             <Link
-              href="#home"
+              href="/"
               className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
             >
               Home
             </Link>
             <Link
-              href="#faq"
+              href="/about"
+              className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
+            >
+              About
+            </Link>
+            <Link
+              href="/about#faq"
               className="text-gray-700 hover:text-blue-600 transition-colors font-medium"
             >
               FAQ's
@@ -48,7 +54,7 @@ export default function Navbar() {
               onClick={() => document.getElementById('quiz')?.scrollIntoView({ behavior: 'smooth' })}
               className="px-6 py-2 bg-zinc-900 text-white rounded-md font-medium hover:bg-zinc-800 transition-colors"
             >
-              Match Now
+              Browse Pets
             </button>
           </div>
         </div>

@@ -54,7 +54,7 @@ export default function Hero() {
           </LayoutGroup>
           
           <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Match your personality with the perfect pet companion using AI-powered insights to find your ideal furry friend.
+            Match your personality with the perfect pet companion using AI-powered insights to find your ideal furry friend, anywhere in the world.
           </p>
 
           {/* CTA Buttons */}
