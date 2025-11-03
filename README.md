@@ -42,7 +42,7 @@ Frontend runs at: http://localhost:3000
 
 ## Team Workflow
 
-### Frontend Developer (You)
+### Frontend Developer 
 - Work in `client/app/` for pages and UI
 - Use `client/lib/api.ts` to call backend endpoints
 - All styling in `client/app/globals.css` or component-level
