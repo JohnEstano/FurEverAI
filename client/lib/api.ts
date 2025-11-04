@@ -1,7 +1,12 @@
 // API configuration and helper functions
 // This is your single source of truth for backend communication
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+// Support both NEXT_PUBLIC_API_URL and NEXT_PUBLIC_API_BASE for flexibility
+const ENV = (globalThis as any)?.process?.env || {};
+const API_BASE_URL =
+  ENV.NEXT_PUBLIC_API_URL ||
+  ENV.NEXT_PUBLIC_API_BASE ||
+  'http://127.0.0.1:5000';
 
 export const api = {
   // Health check
@@ -16,26 +21,62 @@ export const api = {
     return response.json();
   },
 
-  // Model prediction with JSON data
-  predict: async (data: any) => {
+  // 1) Pawsonality (Decision Tree)
+  predictPawsonality: async (data: any) => {
     const response = await fetch(`${API_BASE_URL}/api/predict`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
     return response.json();
   },
 
-  // Model prediction with file upload
-  predictWithFile: async (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const response = await fetch(`${API_BASE_URL}/api/predict`, {
+  // 2) Match (SVM)
+  matchScore: async (data: any) => {
+    const response = await fetch(`${API_BASE_URL}/api/match`, {
       method: 'POST',
-      body: formData,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  },
+
+  // 3) Auto Tags (Naive Bayes)
+  autoTags: async (data: { description: string }) => {
+    const response = await fetch(`${API_BASE_URL}/api/tags`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  },
+
+  // 4) Recommendations (KNN)
+  recommend: async (data: { Pet_ID?: string; n_recommendations?: number } & Record<string, any>) => {
+    const response = await fetch(`${API_BASE_URL}/api/recommend`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  },
+
+  // 5) Deep Match (ANN)
+  deepMatch: async (data: any) => {
+    const response = await fetch(`${API_BASE_URL}/api/deep-match`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    return response.json();
+  },
+
+  // 6) Adoption Prediction (Linear Regression)
+  adoptionPrediction: async (data: any) => {
+    const response = await fetch(`${API_BASE_URL}/api/adoption-prediction`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
     });
     return response.json();
   },

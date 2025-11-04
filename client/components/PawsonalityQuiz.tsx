@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { api } from '@/lib/api'
 
 const PAWSONALITY_TYPES = {
   'Active Adventurer': { emoji: '⛰️', description: 'High energy, experienced, needs active pets', color: 'from-orange-500 to-red-500' },
@@ -65,6 +66,89 @@ export default function PawsonalityQuiz() {
   const [answers, setAnswers] = useState<string[]>([])
   const [result, setResult] = useState<string | null>(null)
   const [showQuiz, setShowQuiz] = useState(false)
+  const [serverPawsonality, setServerPawsonality] = useState<string | null>(null)
+  const [serverDescription, setServerDescription] = useState<string>('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  // Map quiz result into backend payload for /api/predict
+  const mapResultToPredictPayload = (type: string) => {
+    switch (type) {
+      case 'Active Adventurer':
+        return {
+          Housing_Type: 'House_Yard',
+          Has_Kids: 0,
+          Time_At_Home: 2,
+          Activity_Level: 3,
+          Experience_Level: 'Past_Owner',
+          Pet_Type_Desired: 'Dog',
+        }
+      case 'Cozy Companion':
+        return {
+          Housing_Type: 'Apartment',
+          Has_Kids: 0,
+          Time_At_Home: 3,
+          Activity_Level: 1,
+          Experience_Level: 'First_Time',
+          Pet_Type_Desired: 'Cat',
+        }
+      case 'Social Butterfly':
+        return {
+          Housing_Type: 'House_No_Yard',
+          Has_Kids: 1,
+          Time_At_Home: 2,
+          Activity_Level: 2,
+          Experience_Level: 'Past_Owner',
+          Pet_Type_Desired: 'Dog',
+        }
+      case 'Quiet Caretaker':
+        return {
+          Housing_Type: 'Apartment',
+          Has_Kids: 0,
+          Time_At_Home: 1,
+          Activity_Level: 1,
+          Experience_Level: 'Past_Owner',
+          Pet_Type_Desired: 'Cat',
+        }
+      case 'Confident Guardian':
+        return {
+          Housing_Type: 'House_Yard',
+          Has_Kids: 0,
+          Time_At_Home: 2,
+          Activity_Level: 3,
+          Experience_Level: 'Expert',
+          Pet_Type_Desired: 'Dog',
+        }
+      case 'Gentle Nurturer':
+        return {
+          Housing_Type: 'House_No_Yard',
+          Has_Kids: 0,
+          Time_At_Home: 3,
+          Activity_Level: 2,
+          Experience_Level: 'Past_Owner',
+          Pet_Type_Desired: 'Cat',
+        }
+      case 'Playful Enthusiast':
+        return {
+          Housing_Type: 'House_No_Yard',
+          Has_Kids: 0,
+          Time_At_Home: 1,
+          Activity_Level: 3,
+          Experience_Level: 'First_Time',
+          Pet_Type_Desired: 'Dog',
+        }
+      case 'Balanced Buddy':
+      default:
+        return {
+          Housing_Type: 'House_No_Yard',
+          Has_Kids: 0,
+          Time_At_Home: 2,
+          Activity_Level: 2,
+          Experience_Level: 'Past_Owner',
+          Pet_Type_Desired: 'Dog',
+        }
+    }
+  }
 
   const handleAnswer = (pawsonalityType: string) => {
     const newAnswers = [...answers, pawsonalityType]
@@ -79,8 +163,25 @@ export default function PawsonalityQuiz() {
         return acc
       }, {} as Record<string, number>)
       
-      const resultType = Object.entries(typeCounts).sort((a, b) => b[1] - a[1])[0][0]
+  const entries = Object.entries(typeCounts as Record<string, number>) as [string, number][]
+  const resultType = entries.sort((a, b) => b[1] - a[1])[0][0]
       setResult(resultType)
+      // Also call backend to get official pawsonality and description
+      setLoading(true)
+      setError(null)
+      const payload = mapResultToPredictPayload(resultType)
+      api
+        .predictPawsonality(payload)
+        .then((res) => {
+          if (res?.status === 'success') {
+            setServerPawsonality(res.pawsonality)
+            setServerDescription(res.description || '')
+          } else {
+            setError(res?.message || 'Failed to get prediction')
+          }
+        })
+        .catch((e) => setError(String(e)))
+        .finally(() => setLoading(false))
     }
   }
 
@@ -123,17 +224,25 @@ export default function PawsonalityQuiz() {
   }
 
   if (result) {
-    const resultData = PAWSONALITY_TYPES[result as keyof typeof PAWSONALITY_TYPES]
+    const displayType = (serverPawsonality || result) as keyof typeof PAWSONALITY_TYPES
+    const resultData = PAWSONALITY_TYPES[displayType] || PAWSONALITY_TYPES[result as keyof typeof PAWSONALITY_TYPES]
     return (
       <section id="quiz" className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-purple-100 to-pink-100 min-h-screen flex items-center">
         <div className="max-w-2xl mx-auto text-center w-full">
           <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12">
-            <div className="text-5xl sm:text-6xl md:text-8xl mb-4 sm:mb-6 animate-bounce">{resultData.emoji}</div>
+            <div className="text-5xl sm:text-6xl md:text-8xl mb-4 sm:mb-6 animate-bounce">{resultData?.emoji}</div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-800">You're a</h2>
-            <h3 className={`text-3xl sm:text-4xl md:text-5xl font-black mb-4 sm:mb-6 bg-gradient-to-r ${resultData.color} bg-clip-text text-transparent px-4`}>
-              {result}!
+            <h3 className={`text-3xl sm:text-4xl md:text-5xl font-black mb-4 sm:mb-6 bg-gradient-to-r ${resultData?.color} bg-clip-text text-transparent px-4`}>
+              {serverPawsonality || result}!
             </h3>
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 px-4">{resultData.description}</p>
+            {loading ? (
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 px-4">Fetching your AI-powered description…</p>
+            ) : (
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 px-4">{serverDescription || resultData?.description}</p>
+            )}
+            {error && (
+              <p className="text-sm text-red-600 mb-4">{error}</p>
+            )}
             
             <div className="space-y-3 sm:space-y-4">
               <button

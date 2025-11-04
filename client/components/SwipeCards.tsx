@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import { api } from '@/lib/api'
 
 // Mock pet data - your ML team will provide real data via API
 const MOCK_PETS = [
@@ -60,8 +61,86 @@ export default function SwipeCards() {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
+  const [loadingScores, setLoadingScores] = useState(false)
+  const [scores, setScores] = useState<Record<number, { compatibility?: number; deepMatch?: number }>>({})
+  const [error, setError] = useState<string | null>(null)
 
   const currentPet = MOCK_PETS[currentIndex]
+
+  // Derive pet profile fields from mock data
+  const derivePetProfile = (pet: typeof MOCK_PETS[number]) => {
+    const traits = (pet.traits || []).map(t => t.toLowerCase())
+    const desc = (pet.description || '').toLowerCase()
+
+    const energetic = traits.some(t => ['energetic', 'active', 'playful'].includes(t))
+    const calmish = traits.some(t => ['calm', 'quiet', 'gentle'].includes(t))
+    const kids = traits.some(t => t.includes('family')) || desc.includes('kids')
+
+    // Energy: 1 low, 2 medium, 3 high
+    const Pet_Energy_Level = energetic ? 3 : calmish ? 1 : 2
+    // Kids: 2 great, 1 ok/unknown, 0 no (we'll default to 1 unless clearly family-friendly)
+    const Pet_Good_With_Kids = kids ? 2 : 1
+
+    // Size heuristics by breed keywords
+    const breed = (pet.breed || '').toLowerCase()
+    let Pet_Size: 'Small' | 'Medium' | 'Large' = 'Medium'
+    if (/(labrador|retriever|shepherd|husky|rottweiler|mastiff|great dane)/.test(breed)) Pet_Size = 'Large'
+    if (/(chihuahua|pomeranian|shihtzu|shih tzu|pug|persian|siamese|cat)/.test(breed)) Pet_Size = 'Small'
+
+    // Grooming needs heuristic
+    let Pet_Grooming_Needs: 'Low' | 'Medium' | 'High' = 'Medium'
+    if (/(persian|poodle|spitz|long hair|longhair|fluffy)/.test(breed)) Pet_Grooming_Needs = 'High'
+    if (/(labrador|beagle|boxer|short hair|shorthair)/.test(breed)) Pet_Grooming_Needs = 'Low'
+
+    return { Pet_Energy_Level, Pet_Good_With_Kids, Pet_Size, Pet_Grooming_Needs }
+  }
+
+  // Default adopter profile (could be replaced with real user profile or quiz mapping)
+  const adopterProfile = useMemo(() => ({
+    Activity_Level: 2,
+    Has_Kids: 0,
+    Experience_Level: 'Past_Owner' as 'First_Time' | 'Past_Owner' | 'Expert',
+  }), [])
+
+  // Fetch scores for the current pet if not already loaded
+  useEffect(() => {
+    const pet = currentPet
+    if (!pet) return
+    if (scores[pet.id]) return
+
+    const run = async () => {
+      setLoadingScores(true)
+      setError(null)
+      const petProfile = derivePetProfile(pet)
+      const payload = {
+        ...adopterProfile,
+        Pet_Energy_Level: petProfile.Pet_Energy_Level,
+        Pet_Good_With_Kids: petProfile.Pet_Good_With_Kids,
+        Pet_Size: petProfile.Pet_Size,
+        Pet_Grooming_Needs: petProfile.Pet_Grooming_Needs,
+      }
+      try {
+        const [m, d] = await Promise.all([
+          api.matchScore(payload),
+          api.deepMatch(payload),
+        ])
+  setScores((prev: Record<number, { compatibility?: number; deepMatch?: number }>) => ({
+          ...prev,
+          [pet.id]: {
+            compatibility: typeof m?.match_score === 'number' ? m.match_score : undefined,
+            deepMatch: typeof d?.deep_match_score === 'number' ? d.deep_match_score : undefined,
+          },
+        }))
+      } catch (e) {
+        setError(String(e))
+      } finally {
+        setLoadingScores(false)
+      }
+    }
+
+    run()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentIndex])
 
   const handleLike = () => {
     if (currentIndex < MOCK_PETS.length) {
@@ -204,14 +283,22 @@ export default function SwipeCards() {
                 {/* Compatibility Scores */}
                 <div className="flex gap-3 sm:gap-4">
                   <div className="flex-1 bg-purple-100 rounded-lg sm:rounded-xl p-2.5 sm:p-3 text-center">
-                    <p className="text-2xl sm:text-2xl md:text-3xl font-bold text-purple-600">{currentPet.compatibility}%</p>
+                    <p className="text-2xl sm:text-2xl md:text-3xl font-bold text-purple-600">
+                      {scores[currentPet.id]?.compatibility ?? (loadingScores ? '…' : `${currentPet.compatibility}`)}%
+                    </p>
                     <p className="text-[10px] sm:text-xs text-gray-600">Match Score</p>
                   </div>
                   <div className="flex-1 bg-pink-100 rounded-lg sm:rounded-xl p-2.5 sm:p-3 text-center">
-                    <p className="text-2xl sm:text-2xl md:text-3xl font-bold text-pink-600">{currentPet.deepMatch}%</p>
+                    <p className="text-2xl sm:text-2xl md:text-3xl font-bold text-pink-600">
+                      {scores[currentPet.id]?.deepMatch ?? (loadingScores ? '…' : `${currentPet.deepMatch}`)}%
+                    </p>
                     <p className="text-[10px] sm:text-xs text-gray-600">AI DeepMatch</p>
                   </div>
                 </div>
+
+                {error && (
+                  <p className="text-xs text-red-600">{error}</p>
+                )}
 
                 {/* Traits */}
                 <div className="flex flex-wrap gap-1.5 sm:gap-2">
