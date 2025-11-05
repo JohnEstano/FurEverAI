@@ -21,11 +21,7 @@ export default function Page() {
       {/* Features Grid */}
       <Features />
 
-      {/* Personality Quiz Section */}
-      <PawsonalityQuiz />
-
-      {/* Swipe Cards Section */}
-      <SwipeCards />
+   
 
       {/* Footer */}
       <footer className="bg-gray-50 border-t border-gray-200 py-8 sm:py-10 md:py-12 px-4">

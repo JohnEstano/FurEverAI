@@ -76,7 +76,7 @@ export default function Hero() {
 
 
             <a
-              href="/browse"
+              href="/quiz"
               className="px-6 py-3 sm:py-3.5 bg-blue-600 text-white rounded-md font-medium text-sm sm:text-base hover:bg-blue-700 transition-colors shadow-sm relative z-20 text-center"
             >
               Match a Companion
