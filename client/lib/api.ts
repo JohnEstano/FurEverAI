@@ -8,16 +8,22 @@ const API_BASE_URL =
   ENV.NEXT_PUBLIC_API_BASE ||
   'http://127.0.0.1:5000';
 
+// Common fetch options to disable caching in the browser
+const noCache: RequestInit = {
+  cache: 'no-store',
+  headers: { 'Cache-Control': 'no-cache' },
+};
+
 export const api = {
   // Health check
   healthCheck: async () => {
-    const response = await fetch(`${API_BASE_URL}/api/health`);
+  const response = await fetch(`${API_BASE_URL}/api/health`, { ...noCache });
     return response.json();
   },
 
   // Home endpoint
   getHome: async () => {
-    const response = await fetch(`${API_BASE_URL}/api/home`);
+  const response = await fetch(`${API_BASE_URL}/api/home`, { ...noCache });
     return response.json();
   },
 
@@ -25,8 +31,9 @@ export const api = {
   predictPawsonality: async (data: any) => {
     const response = await fetch(`${API_BASE_URL}/api/predict`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
       body: JSON.stringify(data),
+      cache: 'no-store',
     });
     return response.json();
   },
@@ -35,8 +42,9 @@ export const api = {
   matchScore: async (data: any) => {
     const response = await fetch(`${API_BASE_URL}/api/match`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
       body: JSON.stringify(data),
+      cache: 'no-store',
     });
     return response.json();
   },
@@ -45,8 +53,9 @@ export const api = {
   autoTags: async (data: { description: string }) => {
     const response = await fetch(`${API_BASE_URL}/api/tags`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
       body: JSON.stringify(data),
+      cache: 'no-store',
     });
     return response.json();
   },
@@ -55,8 +64,9 @@ export const api = {
   recommend: async (data: { Pet_ID?: string; n_recommendations?: number } & Record<string, any>) => {
     const response = await fetch(`${API_BASE_URL}/api/recommend`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
       body: JSON.stringify(data),
+      cache: 'no-store',
     });
     return response.json();
   },
@@ -65,8 +75,9 @@ export const api = {
   deepMatch: async (data: any) => {
     const response = await fetch(`${API_BASE_URL}/api/deep-match`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
       body: JSON.stringify(data),
+      cache: 'no-store',
     });
     return response.json();
   },
@@ -75,8 +86,9 @@ export const api = {
   adoptionPrediction: async (data: any) => {
     const response = await fetch(`${API_BASE_URL}/api/adoption-prediction`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-cache' },
       body: JSON.stringify(data),
+      cache: 'no-store',
     });
     return response.json();
   },

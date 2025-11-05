@@ -230,7 +230,7 @@ export default function SwipeCards() {
             You’ve reviewed all available pets. Check your matches!
           </p>
           <button
-            onClick={() => setCurrentIndex(0)}
+            onClick={() => { setCurrentIndex(0); setScores({}); setTagsByPet({}); setRecsByPet({}); setError(null); }}
             className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all"
           >
             Start Over

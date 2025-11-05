@@ -1,5 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { api } from '@/lib/api'
 
 const PAWSONALITY_TYPES = {
@@ -62,6 +63,7 @@ const QUIZ_QUESTIONS = [
 ]
 
 export default function PawsonalityQuiz() {
+  const router = useRouter()
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [answers, setAnswers] = useState<string[]>([])
   const [result, setResult] = useState<string | null>(null)
@@ -246,7 +248,16 @@ export default function PawsonalityQuiz() {
             
             <div className="space-y-3 sm:space-y-4">
               <button
-                onClick={() => document.getElementById('swipe')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => {
+                  // Persist adopter profile so /browse can compute real scores
+                  try {
+                    const payload = mapResultToPredictPayload(serverPawsonality || result || 'Balanced Buddy')
+                    if (typeof window !== 'undefined') {
+                      window.localStorage.setItem('adopterProfile', JSON.stringify(payload))
+                    }
+                  } catch {}
+                  router.push('/browse')
+                }}
                 className="w-full px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
               >
                 Find Your Perfect Match 🐾

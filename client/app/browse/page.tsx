@@ -1,8 +1,9 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Navbar from '@/components/Navbar'
 import { Heart, X, MapPin, Info } from 'lucide-react'
 import Image from 'next/image'
+import { api } from '@/lib/api'
 
 // Mock pet data with real images
 const PETS = [
@@ -130,6 +131,95 @@ export default function BrowsePage() {
   const [liked, setLiked] = useState<number[]>([])
   const [passed, setPassed] = useState<number[]>([])
   const [showDetails, setShowDetails] = useState(false)
+
+  // Dynamic scores and AI tags
+  const [scoresById, setScoresById] = useState<Record<number, { compatibility?: number; deepMatch?: number }>>({})
+  const [tagsById, setTagsById] = useState<Record<number, string[]>>({})
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  // Adopter profile saved by quiz (fallback provided)
+  const adopterProfile = useMemo(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = window.localStorage.getItem('adopterProfile')
+        if (raw) return JSON.parse(raw)
+      } catch {}
+    }
+    return {
+      Activity_Level: 2,
+      Has_Kids: 0,
+      Experience_Level: 'Past_Owner' as 'First_Time' | 'Past_Owner' | 'Expert',
+      Housing_Type: 'House_No_Yard',
+      Time_At_Home: 2,
+      Pet_Type_Desired: 'Dog',
+    }
+  }, [])
+
+  const derivePetProfile = (pet: typeof PETS[number]) => {
+    const energyStr = (pet.energy || '').toLowerCase()
+    const Pet_Energy_Level = energyStr.includes('high') ? 3 : energyStr.includes('low') ? 1 : 2
+
+    const goodWithKids = (pet.characteristics || []).some(c => c.toLowerCase().includes('good with kids'))
+    const Pet_Good_With_Kids = goodWithKids ? 2 : 1
+
+    const size = (pet.size || 'Medium') as 'Small' | 'Medium' | 'Large'
+
+    let Pet_Grooming_Needs: 'Low' | 'Medium' | 'High' = 'Medium'
+    if ((pet.characteristics || []).some(c => c.toLowerCase().includes('grooming'))) Pet_Grooming_Needs = 'High'
+    const breed = (pet.breed || '').toLowerCase()
+    if (/(beagle|labrador|boxer|short hair|shorthair|siamese)/.test(breed)) Pet_Grooming_Needs = 'Low'
+
+    return { Pet_Energy_Level, Pet_Good_With_Kids, Pet_Size: size, Pet_Grooming_Needs }
+  }
+
+  // Compute scores and tags for all pets once
+  useEffect(() => {
+    let cancelled = false
+    const run = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const tasks = PETS.map(async (pet) => {
+          const petProfile = derivePetProfile(pet)
+          const payload = {
+            Activity_Level: adopterProfile.Activity_Level,
+            Has_Kids: adopterProfile.Has_Kids,
+            Experience_Level: adopterProfile.Experience_Level,
+            Pet_Energy_Level: petProfile.Pet_Energy_Level,
+            Pet_Good_With_Kids: petProfile.Pet_Good_With_Kids,
+            Pet_Size: petProfile.Pet_Size,
+            Pet_Grooming_Needs: petProfile.Pet_Grooming_Needs,
+          }
+          const [m, d, t] = await Promise.all([
+            api.matchScore(payload),
+            api.deepMatch(payload),
+            api.autoTags({ description: pet.description }),
+          ])
+          if (!cancelled) {
+            setScoresById(prev => ({
+              ...prev,
+              [pet.id]: {
+                compatibility: typeof m?.match_score === 'number' ? m.match_score : prev[pet.id]?.compatibility,
+                deepMatch: typeof d?.deep_match_score === 'number' ? d.deep_match_score : prev[pet.id]?.deepMatch,
+              }
+            }))
+            if (t && Array.isArray(t.tags)) {
+              setTagsById(prev => ({ ...prev, [pet.id]: t.tags }))
+            }
+          }
+        })
+        await Promise.allSettled(tasks)
+      } catch (e) {
+        if (!cancelled) setError(String(e))
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    }
+    run()
+    return () => { cancelled = true }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const currentPet = PETS[currentIndex]
 
@@ -308,6 +398,17 @@ export default function BrowsePage() {
                       ))}
                     </div>
 
+                    {/* AI Tags */}
+                    {tagsById[currentPet.id]?.length ? (
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {tagsById[currentPet.id].map((tag, idx) => (
+                          <span key={idx} className="px-3 py-1 bg-blue-500/30 backdrop-blur-sm rounded-full text-sm text-white font-medium border border-blue-300/30">
+                            #{tag}
+                          </span>
+                        ))}
+                      </div>
+                    ) : null}
+
                     {/* Characteristics */}
                     <div className="flex flex-wrap gap-2">
                       {currentPet.characteristics.map((char, idx) => (
@@ -327,11 +428,11 @@ export default function BrowsePage() {
                   {/* Compatibility Scores */}
                   <div className="flex gap-4 mb-6">
                     <div className="flex-1 bg-gradient-to-br from-purple-100 to-purple-50 rounded-2xl p-4 text-center border border-purple-200">
-                      <p className="text-4xl font-bold text-purple-600">{currentPet.compatibility}%</p>
+                      <p className="text-4xl font-bold text-purple-600">{scoresById[currentPet.id]?.compatibility ?? currentPet.compatibility}%</p>
                       <p className="text-sm text-gray-600 font-medium">Match Score</p>
                     </div>
                     <div className="flex-1 bg-gradient-to-br from-pink-100 to-pink-50 rounded-2xl p-4 text-center border border-pink-200">
-                      <p className="text-4xl font-bold text-pink-600">{currentPet.deepMatch}%</p>
+                      <p className="text-4xl font-bold text-pink-600">{scoresById[currentPet.id]?.deepMatch ?? currentPet.deepMatch}%</p>
                       <p className="text-sm text-gray-600 font-medium">AI DeepMatch</p>
                     </div>
                   </div>

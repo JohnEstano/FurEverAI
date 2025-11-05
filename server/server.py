@@ -81,6 +81,17 @@ def load_models():
 # Try to load models at startup
 models_loaded = load_models()
 
+# Add no-cache headers to API responses to avoid browser caching of dynamic results
+@app.after_request
+def add_no_cache_headers(response):
+    try:
+        response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+    except Exception:
+        pass
+    return response
+
 # =======================================================
 # HEALTH & INFO ENDPOINTS
 # =======================================================
