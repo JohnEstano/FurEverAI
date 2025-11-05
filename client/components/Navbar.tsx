@@ -48,7 +48,7 @@ export default function Navbar() {
               href="/about#faq"
               className="text-gray-700 hover:text-blue-600 transition-colors font-medium text-sm lg:text-base"
             >
-              FAQ's
+              FAQ’s
             </Link>
 
             {/* Browse Pets Button */}
@@ -93,7 +93,7 @@ export default function Navbar() {
                 className="px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-gray-50 rounded-md transition-colors font-medium"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                FAQ's
+                FAQ’s
               </Link>
               <Link
                 href="/browse"

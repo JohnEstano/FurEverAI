@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-};
+// Clean config (removed invalid experimental.allowedDevOrigins key)
+const nextConfig: NextConfig = {};
 
 export default nextConfig;

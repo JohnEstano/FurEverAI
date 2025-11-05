@@ -231,7 +231,7 @@ export default function PawsonalityQuiz() {
         <div className="max-w-2xl mx-auto text-center w-full">
           <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12">
             <div className="text-5xl sm:text-6xl md:text-8xl mb-4 sm:mb-6 animate-bounce">{resultData?.emoji}</div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-800">You're a</h2>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-800">You’re a</h2>
             <h3 className={`text-3xl sm:text-4xl md:text-5xl font-black mb-4 sm:mb-6 bg-gradient-to-r ${resultData?.color} bg-clip-text text-transparent px-4`}>
               {serverPawsonality || result}!
             </h3>

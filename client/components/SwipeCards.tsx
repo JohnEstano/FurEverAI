@@ -63,7 +63,9 @@ export default function SwipeCards() {
   const [isDragging, setIsDragging] = useState(false)
   const [loadingScores, setLoadingScores] = useState(false)
   const [scores, setScores] = useState<Record<number, { compatibility?: number; deepMatch?: number }>>({})
+  const [tagsByPet, setTagsByPet] = useState<Record<number, string[]>>({})
   const [error, setError] = useState<string | null>(null)
+  const [recsByPet, setRecsByPet] = useState<Record<number, string[]>>({})
 
   const currentPet = MOCK_PETS[currentIndex]
 
@@ -120,9 +122,13 @@ export default function SwipeCards() {
         Pet_Grooming_Needs: petProfile.Pet_Grooming_Needs,
       }
       try {
-        const [m, d] = await Promise.all([
+        const tagPromise = (pet.description && pet.description.trim().length)
+          ? api.autoTags({ description: pet.description })
+          : Promise.resolve(null as any)
+        const [m, d, t] = await Promise.all([
           api.matchScore(payload),
           api.deepMatch(payload),
+          tagPromise,
         ])
   setScores((prev: Record<number, { compatibility?: number; deepMatch?: number }>) => ({
           ...prev,
@@ -131,6 +137,9 @@ export default function SwipeCards() {
             deepMatch: typeof d?.deep_match_score === 'number' ? d.deep_match_score : undefined,
           },
         }))
+        if (t && Array.isArray(t.tags)) {
+          setTagsByPet((prev) => ({ ...prev, [pet.id]: t.tags }))
+        }
       } catch (e) {
         setError(String(e))
       } finally {
@@ -155,6 +164,24 @@ export default function SwipeCards() {
       setPassed([...passed, currentPet.id])
       // TODO: Send to API - api.savePass(currentPet.id)
       nextCard()
+    }
+  }
+
+  const handleRecommend = async () => {
+    const pet = currentPet
+    if (!pet) return
+    try {
+      setError(null)
+      // Map mock numeric id to a plausible Pet_ID like P0001
+      const Pet_ID = `P${String(pet.id).padStart(4, '0')}`
+      const res = await api.recommend({ Pet_ID, n_recommendations: 5 })
+      if (res && Array.isArray(res.recommended_pet_ids)) {
+        setRecsByPet(prev => ({ ...prev, [pet.id]: res.recommended_pet_ids }))
+      } else {
+        setRecsByPet(prev => ({ ...prev, [pet.id]: [] }))
+      }
+    } catch (e) {
+      setError(String(e))
     }
   }
 
@@ -197,10 +224,10 @@ export default function SwipeCards() {
         <div className="max-w-md mx-auto text-center w-full">
           <div className="text-5xl sm:text-6xl mb-4 sm:mb-6">🎉</div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-gray-800 px-4">
-            That's All Folks!
+            That’s All Folks!
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 px-4">
-            You've reviewed all available pets. Check your matches!
+            You’ve reviewed all available pets. Check your matches!
           </p>
           <button
             onClick={() => setCurrentIndex(0)}
@@ -210,7 +237,7 @@ export default function SwipeCards() {
           </button>
           <div className="mt-6 sm:mt-8 p-5 sm:p-6 bg-white rounded-xl sm:rounded-2xl shadow-lg">
             <p className="text-base sm:text-lg font-semibold mb-2">Your Likes: {liked.length}</p>
-            <p className="text-xs sm:text-sm text-gray-600">We'll notify you when these pets are available!</p>
+            <p className="text-xs sm:text-sm text-gray-600">We’ll notify you when these pets are available!</p>
           </div>
         </div>
       </section>
@@ -307,6 +334,36 @@ export default function SwipeCards() {
                       {trait}
                     </span>
                   ))}
+                </div>
+
+                {/* AI Tags */}
+                {tagsByPet[currentPet.id]?.length ? (
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    {tagsByPet[currentPet.id].map((tag: string, idx: number) => (
+                      <span key={idx} className="px-2.5 sm:px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs sm:text-sm">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                ) : null}
+
+                {/* KNN Recommendations (button + results) */}
+                <div className="pt-2 sm:pt-3">
+                  <button
+                    onClick={handleRecommend}
+                    className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full text-xs sm:text-sm shadow-sm"
+                  >
+                    Similar Pets (KNN)
+                  </button>
+                  {recsByPet[currentPet.id] && recsByPet[currentPet.id].length > 0 ? (
+                    <div className="mt-2 flex flex-wrap gap-1.5 sm:gap-2">
+                      {recsByPet[currentPet.id].map((pid) => (
+                        <span key={pid} className="px-2.5 sm:px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-xs sm:text-sm">
+                          {pid}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
 
                 <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">{currentPet.description}</p>
