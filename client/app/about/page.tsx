@@ -84,6 +84,7 @@ export default function AboutPage() {
                 <h4 className="text-xl font-bold text-gray-900 mb-2">
                   The 5-Minute Pawsonality Quiz
                 </h4>
+               
                 <p className="text-lg text-gray-700 leading-relaxed">
                   Forget generic surveys. Our proprietary quiz is the first step in our deep analysis. A Decision Tree algorithm instantly analyzes your answers to classify you into one of our 8 unique "Pawsonality Types."
                 </p>
@@ -102,6 +103,7 @@ export default function AboutPage() {
                 <h4 className="text-xl font-bold text-gray-900 mb-2">
                   AI Compatibility Scores
                 </h4>
+                
                 <p className="text-lg text-gray-700 leading-relaxed">
                   You won't just see cute faces; you'll see real-time match percentages. Our core Support Vector Machine (SVM) calculates a compatibility score for every pet, while an advanced Artificial Neural Network (ANN) provides a "DeepMatch Score" by analyzing complex patterns from thousands of successful adoptions.
                 </p>
@@ -120,6 +122,7 @@ export default function AboutPage() {
                 <h4 className="text-xl font-bold text-gray-900 mb-2">
                   Smart Suggestions
                 </h4>
+               
                 <p className="text-lg text-gray-700 leading-relaxed">
                   Found a pet you love? Our K-Nearest Neighbors (KNN) model instantly suggests similar pets, helping you discover hidden gems you might have otherwise missed.
                 </p>
@@ -141,6 +144,9 @@ export default function AboutPage() {
                 <h4 className="text-xl font-bold text-gray-900 mb-2">
                   AI-Powered Auto-Tagging
                 </h4>
+                <p className="text-sm text-green-600 font-semibold mb-2">
+                  Naive Bayes: We use a Naive Bayes text classifier to automatically analyze pet descriptions and generate relevant tags like "family-friendly," "apartment-approved," or "good with kids," saving shelters countless hours of manual data entry.
+                </p>
                 <p className="text-lg text-gray-700 leading-relaxed">
                   When a shelter uploads a pet's description, our Naive Bayes algorithm instantly reads the text and auto-tags the profile with crucial traits like "family-friendly," "good with other dogs," or "apartment-approved."
                 </p>
@@ -150,6 +156,7 @@ export default function AboutPage() {
                 <h4 className="text-xl font-bold text-gray-900 mb-2">
                   Adoption Predictions
                 </h4>
+               
                 <p className="text-lg text-gray-700 leading-relaxed">
                   We use Linear Regression to analyze a pet's traits and match data, providing shelters with a "Predicted Adoption Timeline." This helps them manage resources and focus attention on animals who may need more help getting noticed.
                 </p>
@@ -248,7 +255,7 @@ export default function AboutPage() {
                 <div className="w-20 h-20 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
                   GD
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">Geoffrey Diapana</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">John Estano</h3>
                 <p className="text-blue-600 font-semibold">Lead Developer</p>
               </div>
             </div>
@@ -258,7 +265,7 @@ export default function AboutPage() {
                 <div className="w-20 h-20 bg-emerald-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
                   JE
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">John Estano</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Geoffrey Diapana</h3>
                 <p className="text-emerald-600 font-semibold">ML Engineer</p>
               </div>
             </div>

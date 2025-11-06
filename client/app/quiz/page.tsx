@@ -270,10 +270,12 @@ export default function QuizPage() {
   }
 
   const handleContinueToBrowse = () => {
-    // Persist adopter profile so /browse can compute real scores
+    // Persist adopter profile AND pawsonality so /browse can use the same result
     try {
       const payload = mapResultToPredictPayload(result || 'Balanced Buddy')
       window.localStorage.setItem('adopterProfile', JSON.stringify(payload))
+      // Store the actual pawsonality result from quiz
+      window.localStorage.setItem('userPawsonality', serverPawsonality || result || '')
     } catch {}
     router.push('/browse')
   }
@@ -382,6 +384,10 @@ export default function QuizPage() {
             <h3 className="text-2xl font-bold text-gray-900 mb-3">
               {serverPawsonality || result}
             </h3>
+            
+            <p className="text-xs text-blue-600 font-medium mb-3">
+              Decision Tree: Classified from your quiz responses
+            </p>
             
             {loading ? (
               <p className="text-sm text-gray-600 mb-6">Loading...</p>

@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState, useRef } from 'react'
-import { Heart, Info, MapPin, Phone, Mail, User, ArrowLeft, ChevronUp, ChevronDown, Plus } from 'lucide-react'
+import { Heart, Info, MapPin, Phone, Mail, User, ArrowLeft, ChevronUp, ChevronDown, Plus, Grid3x3, LayoutList } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { api } from '@/lib/api'
@@ -28,14 +28,14 @@ const PAWSONALITY_TYPES = {
   'Patient Nurturer': { emoji: '💝', description: 'Caring soul perfect for special needs or senior pets' },
 }
 
-// Mock pet data
+// Mock pet data - Using placeholder images: 2.png for dogs, 4.png for cats
 const PETS = [
   {
     id: 1,
     name: 'Buddy',
     age: { years: 3, months: 2 },
     breed: 'Golden Retriever',
-    image: '/images/entries/a1.jpg',
+    image: '/images/2.png',
     location: 'San Francisco, CA',
     shelter: 'Happy Paws Shelter',
     shelterContact: {
@@ -46,8 +46,6 @@ const PETS = [
     compatibility: 92,
     deepMatch: 95,
     distance: '3.5 Km Away',
-    traits: ['Friendly', 'Active', 'Loyal', 'Playful'],
-    characteristics: ['Good with kids', 'House trained', 'Vaccinated', 'Neutered'],
     size: 'Large',
     energy: 'High',
     description: 'Meet Buddy, the most lovable Golden Retriever you\'ll ever meet! Buddy is an energetic and friendly boy who absolutely adores people. He loves long walks in the park, playing fetch, and swimming. Buddy is great with children and would make an excellent family companion.',
@@ -60,7 +58,7 @@ const PETS = [
     name: 'Luna',
     age: { years: 2, months: 5 },
     breed: 'Siamese Mix',
-    image: '/images/entries/a2.jpg',
+    image: '/images/4.png',
     location: 'Oakland, CA',
     shelter: 'Cozy Cats Rescue',
     shelterContact: {
@@ -71,8 +69,6 @@ const PETS = [
     compatibility: 88,
     deepMatch: 90,
     distance: '5.2 Km Away',
-    traits: ['Independent', 'Calm', 'Affectionate', 'Quiet'],
-    characteristics: ['Litter trained', 'Indoor only', 'Vaccinated', 'Spayed'],
     size: 'Medium',
     energy: 'Low-Medium',
     description: 'Luna is a beautiful Siamese mix with striking blue eyes and a gentle personality. She\'s the perfect apartment cat - quiet, clean, and independent.',
@@ -85,7 +81,7 @@ const PETS = [
     name: 'Max',
     age: { years: 5, months: 0 },
     breed: 'Labrador Mix',
-    image: '/images/entries/a3.jpg',
+    image: '/images/2.png',
     location: 'Berkeley, CA',
     shelter: 'Second Chance Shelter',
     shelterContact: {
@@ -110,7 +106,7 @@ const PETS = [
     name: 'Whiskers',
     age: { years: 4, months: 3 },
     breed: 'Persian',
-    image: '/images/entries/a4.jpg',
+    image: '/images/4.png',
     location: 'San Jose, CA',
     shelter: 'Feline Friends Foundation',
     shelterContact: {
@@ -135,7 +131,7 @@ const PETS = [
     name: 'Charlie',
     age: { years: 1, months: 8 },
     breed: 'Beagle',
-    image: '/images/entries/a5.jpg',
+    image: '/images/2.png',
     location: 'Palo Alto, CA',
     shelter: 'Bay Area Pet Rescue',
     shelterContact: {
@@ -160,7 +156,7 @@ const PETS = [
     name: 'Bella',
     age: { years: 7, months: 0 },
     breed: 'Domestic Shorthair',
-    image: '/images/entries/a6.jpg',
+    image: '/images/4.png',
     location: 'Fremont, CA',
     shelter: 'Golden Years Cat Sanctuary',
     shelterContact: {
@@ -179,6 +175,306 @@ const PETS = [
     personality: 'Bella is a gentle soul who has lived a full life and now seeks comfort and companionship.',
     idealHome: 'Quiet home, retiree or work-from-home individual. Bella needs someone who can give her love and regular vet care.',
     medicalHistory: 'Senior cat, requires regular vet checkups, thyroid medication, all vaccinations current, spayed, microchipped',
+  },
+  {
+    id: 7,
+    name: 'Rocky',
+    age: { years: 4, months: 0 },
+    breed: 'German Shepherd',
+    image: '/images/2.png',
+    location: 'San Mateo, CA',
+    shelter: 'Guardian Angels Rescue',
+    shelterContact: {
+      phone: '(650) 555-0234',
+      email: 'contact@guardianangels.org',
+      contactPerson: 'Amanda Foster'
+    },
+    compatibility: 87,
+    deepMatch: 89,
+    distance: '6.8 Km Away',
+    traits: ['Protective', 'Intelligent', 'Loyal', 'Athletic'],
+    characteristics: ['Trained', 'Good with dogs', 'Vaccinated', 'Neutered'],
+    size: 'Large',
+    energy: 'High',
+    description: 'Rocky is a magnificent German Shepherd with excellent training and a gentle heart. He is protective yet friendly.',
+    personality: 'Rocky is a natural guardian with a soft spot for his family. He is intelligent and eager to please.',
+    idealHome: 'Experienced dog owner, active household with secure yard. Rocky needs mental stimulation and regular exercise.',
+    medicalHistory: 'Healthy, all vaccinations current, neutered, microchipped',
+  },
+  {
+    id: 8,
+    name: 'Daisy',
+    age: { years: 1, months: 3 },
+    breed: 'Tabby Cat',
+    image: '/images/4.png',
+    location: 'Mountain View, CA',
+    shelter: 'Whiskers & Paws',
+    shelterContact: {
+      phone: '(650) 555-0567',
+      email: 'info@whiskerspaws.org',
+      contactPerson: 'Lisa Wong'
+    },
+    compatibility: 84,
+    deepMatch: 86,
+    distance: '7.5 Km Away',
+    traits: ['Playful', 'Curious', 'Energetic', 'Sweet'],
+    characteristics: ['Litter trained', 'Good with cats', 'Vaccinated', 'Spayed'],
+    size: 'Small',
+    energy: 'Medium',
+    description: 'Daisy is a young tabby with endless energy and curiosity. She loves toys, climbing, and interactive play.',
+    personality: 'Daisy is the life of the party! She is always ready for playtime and loves exploring every corner.',
+    idealHome: 'Active household that enjoys interactive play. Daisy would thrive with another young cat companion.',
+    medicalHistory: 'Healthy, all vaccinations current, spayed, microchipped',
+  },
+  {
+    id: 9,
+    name: 'Thor',
+    age: { years: 6, months: 0 },
+    breed: 'Husky Mix',
+    image: '/images/2.png',
+    location: 'Sunnyvale, CA',
+    shelter: 'Northern Paws Rescue',
+    shelterContact: {
+      phone: '(408) 555-0890',
+      email: 'adopt@northernpaws.org',
+      contactPerson: 'Kevin Zhang'
+    },
+    compatibility: 91,
+    deepMatch: 92,
+    distance: '9.2 Km Away',
+    traits: ['Adventurous', 'Strong', 'Vocal', 'Friendly'],
+    characteristics: ['Leash trained', 'Good with dogs', 'Vaccinated', 'Neutered'],
+    size: 'Large',
+    energy: 'High',
+    description: 'Thor is a stunning Husky mix who loves the outdoors. He is perfect for hiking, running, and active adventures.',
+    personality: 'Thor is energetic and loves being outdoors. He is vocal and will talk to you about his day.',
+    idealHome: 'Very active owner who loves outdoor activities. Thor needs lots of exercise and mental stimulation.',
+    medicalHistory: 'Healthy, all vaccinations current, neutered, microchipped',
+  },
+  {
+    id: 10,
+    name: 'Mittens',
+    age: { years: 3, months: 6 },
+    breed: 'Maine Coon Mix',
+    image: '/images/4.png',
+    location: 'Redwood City, CA',
+    shelter: 'Gentle Giants Cat Sanctuary',
+    shelterContact: {
+      phone: '(650) 555-0345',
+      email: 'hello@gentlegiants.org',
+      contactPerson: 'Patricia Brown'
+    },
+    compatibility: 79,
+    deepMatch: 81,
+    distance: '5.9 Km Away',
+    traits: ['Gentle', 'Large', 'Fluffy', 'Calm'],
+    characteristics: ['Indoor only', 'Grooming required', 'Vaccinated', 'Neutered'],
+    size: 'Large',
+    energy: 'Low',
+    description: 'Mittens is a gentle giant Maine Coon mix with a luxurious coat and calm demeanor. Perfect lap cat despite his size.',
+    personality: 'Mittens is surprisingly gentle for his size. He loves being brushed and lounging in sunny spots.',
+    idealHome: 'Calm household with time for regular grooming. Mittens needs someone who appreciates his majestic presence.',
+    medicalHistory: 'Healthy, all vaccinations current, neutered, microchipped. Requires regular grooming.',
+  },
+  {
+    id: 11,
+    name: 'Scout',
+    age: { years: 2, months: 0 },
+    breed: 'Border Collie',
+    image: '/images/2.png',
+    location: 'Santa Clara, CA',
+    shelter: 'Smart Paws Rescue',
+    shelterContact: {
+      phone: '(408) 555-0678',
+      email: 'contact@smartpaws.org',
+      contactPerson: 'Jennifer Lee'
+    },
+    compatibility: 94,
+    deepMatch: 96,
+    distance: '8.7 Km Away',
+    traits: ['Intelligent', 'Energetic', 'Trainable', 'Focused'],
+    characteristics: ['Highly trained', 'Good with kids', 'Vaccinated', 'Spayed'],
+    size: 'Medium',
+    energy: 'High',
+    description: 'Scout is a brilliant Border Collie who excels at agility, tricks, and any mental challenge you give her.',
+    personality: 'Scout is extremely intelligent and needs constant mental stimulation. She learns new commands in minutes.',
+    idealHome: 'Active owner interested in dog sports, training, or agility. Scout needs a job to do and daily challenges.',
+    medicalHistory: 'Healthy, all vaccinations current, spayed, microchipped',
+  },
+  {
+    id: 12,
+    name: 'Oliver',
+    age: { years: 5, months: 3 },
+    breed: 'Orange Tabby',
+    image: '/images/4.png',
+    location: 'Milpitas, CA',
+    shelter: 'Orange Cat Sanctuary',
+    shelterContact: {
+      phone: '(408) 555-0901',
+      email: 'info@orangecats.org',
+      contactPerson: 'Marcus Thompson'
+    },
+    compatibility: 86,
+    deepMatch: 88,
+    distance: '11.3 Km Away',
+    traits: ['Friendly', 'Social', 'Talkative', 'Cuddly'],
+    characteristics: ['Litter trained', 'Good with cats', 'Vaccinated', 'Neutered'],
+    size: 'Medium',
+    energy: 'Medium',
+    description: 'Oliver is a charming orange tabby who loves everyone. He is the perfect blend of playful and cuddly.',
+    personality: 'Oliver is outgoing and loves meeting new people. He will greet you at the door and follow you around.',
+    idealHome: 'Social household that enjoys an interactive, affectionate cat. Oliver loves being the center of attention.',
+    medicalHistory: 'Healthy, all vaccinations current, neutered, microchipped',
+  },
+  {
+    id: 13,
+    name: 'Rosie',
+    age: { years: 2, months: 8 },
+    breed: 'Poodle Mix',
+    image: '/images/2.png',
+    location: 'Cupertino, CA',
+    shelter: 'Paws & Hearts Rescue',
+    shelterContact: {
+      phone: '(408) 555-1234',
+      email: 'info@pawshearts.org',
+      contactPerson: 'Nancy Davis'
+    },
+    compatibility: 89,
+    deepMatch: 91,
+    distance: '7.4 Km Away',
+    traits: ['Smart', 'Affectionate', 'Hypoallergenic', 'Gentle'],
+    characteristics: ['Good with kids', 'Leash trained', 'Vaccinated', 'Spayed'],
+    size: 'Medium',
+    energy: 'Medium',
+    description: 'Rosie is an adorable Poodle mix with a hypoallergenic coat and a heart full of love. She is smart and easy to train.',
+    personality: 'Rosie is gentle and eager to please. She loves learning new tricks and enjoys being around people.',
+    idealHome: 'Family-friendly home with time for grooming and training. Perfect for someone with allergies.',
+    medicalHistory: 'Healthy, all vaccinations current, spayed, microchipped',
+  },
+  {
+    id: 14,
+    name: 'Shadow',
+    age: { years: 6, months: 6 },
+    breed: 'Black Cat',
+    image: '/images/4.png',
+    location: 'San Jose, CA',
+    shelter: 'Midnight Whiskers Sanctuary',
+    shelterContact: {
+      phone: '(408) 555-2345',
+      email: 'contact@midnightwhiskers.org',
+      contactPerson: 'Thomas White'
+    },
+    compatibility: 81,
+    deepMatch: 83,
+    distance: '9.8 Km Away',
+    traits: ['Mysterious', 'Independent', 'Loyal', 'Quiet'],
+    characteristics: ['Litter trained', 'Indoor only', 'Vaccinated', 'Neutered'],
+    size: 'Medium',
+    energy: 'Low',
+    description: 'Shadow is a sleek black cat with golden eyes and a loyal heart. He may be shy at first but forms deep bonds.',
+    personality: 'Shadow is independent yet affectionate once he trusts you. He enjoys quiet companionship.',
+    idealHome: 'Calm home with patient owner. Shadow needs time to warm up but is worth the wait.',
+    medicalHistory: 'Healthy, all vaccinations current, neutered, microchipped',
+  },
+  {
+    id: 15,
+    name: 'Duke',
+    age: { years: 4, months: 6 },
+    breed: 'Boxer',
+    image: '/images/2.png',
+    location: 'Los Gatos, CA',
+    shelter: 'Strong Hearts Dog Rescue',
+    shelterContact: {
+      phone: '(408) 555-3456',
+      email: 'adopt@stronghearts.org',
+      contactPerson: 'Rachel Green'
+    },
+    compatibility: 93,
+    deepMatch: 94,
+    distance: '10.5 Km Away',
+    traits: ['Energetic', 'Protective', 'Loyal', 'Playful'],
+    characteristics: ['Good with kids', 'Trained', 'Vaccinated', 'Neutered'],
+    size: 'Large',
+    energy: 'High',
+    description: 'Duke is a muscular Boxer with boundless energy and a protective nature. He loves his family fiercely.',
+    personality: 'Duke is energetic and loves to play. He is protective but gentle with children.',
+    idealHome: 'Active family with a secure yard. Duke needs daily exercise and loves being part of activities.',
+    medicalHistory: 'Healthy, all vaccinations current, neutered, microchipped',
+  },
+  {
+    id: 16,
+    name: 'Cleo',
+    age: { years: 3, months: 0 },
+    breed: 'Calico Cat',
+    image: '/images/4.png',
+    location: 'Campbell, CA',
+    shelter: 'Colorful Cats Haven',
+    shelterContact: {
+      phone: '(408) 555-4567',
+      email: 'hello@colorfulcats.org',
+      contactPerson: 'Diana Prince'
+    },
+    compatibility: 87,
+    deepMatch: 89,
+    distance: '6.7 Km Away',
+    traits: ['Sassy', 'Confident', 'Playful', 'Talkative'],
+    characteristics: ['Litter trained', 'Good with cats', 'Vaccinated', 'Spayed'],
+    size: 'Small',
+    energy: 'Medium-High',
+    description: 'Cleo is a beautiful calico with a sassy personality. She knows what she wants and is not afraid to tell you.',
+    personality: 'Cleo is confident and playful. She loves interactive toys and will keep you entertained.',
+    idealHome: 'Active household that appreciates a cat with personality. Cleo loves attention and playtime.',
+    medicalHistory: 'Healthy, all vaccinations current, spayed, microchipped',
+  },
+  {
+    id: 17,
+    name: 'Ace',
+    age: { years: 5, months: 0 },
+    breed: 'Australian Shepherd',
+    image: '/images/2.png',
+    location: 'Saratoga, CA',
+    shelter: 'Herding Hearts Rescue',
+    shelterContact: {
+      phone: '(408) 555-5678',
+      email: 'info@herdinghearts.org',
+      contactPerson: 'Chris Evans'
+    },
+    compatibility: 92,
+    deepMatch: 93,
+    distance: '12.1 Km Away',
+    traits: ['Intelligent', 'Energetic', 'Loyal', 'Focused'],
+    characteristics: ['Highly trained', 'Good with dogs', 'Vaccinated', 'Neutered'],
+    size: 'Medium',
+    energy: 'High',
+    description: 'Ace is a brilliant Australian Shepherd who excels at agility and herding. He is a true working dog.',
+    personality: 'Ace is extremely intelligent and needs a job to do. He thrives on mental and physical challenges.',
+    idealHome: 'Very active owner interested in dog sports or farm work. Ace needs daily exercise and training.',
+    medicalHistory: 'Healthy, all vaccinations current, neutered, microchipped',
+  },
+  {
+    id: 18,
+    name: 'Princess',
+    age: { years: 8, months: 0 },
+    breed: 'Ragdoll',
+    image: '/images/4.png',
+    location: 'Los Altos, CA',
+    shelter: 'Royal Felines Sanctuary',
+    shelterContact: {
+      phone: '(650) 555-6789',
+      email: 'contact@royalfelines.org',
+      contactPerson: 'Victoria Stone'
+    },
+    compatibility: 80,
+    deepMatch: 82,
+    distance: '8.9 Km Away',
+    traits: ['Gentle', 'Docile', 'Affectionate', 'Quiet'],
+    characteristics: ['Indoor only', 'Grooming required', 'Vaccinated', 'Spayed'],
+    size: 'Large',
+    energy: 'Low',
+    description: 'Princess is a stunning Ragdoll with beautiful blue eyes. She is the perfect lap cat and loves being held.',
+    personality: 'Princess lives up to her name with a regal yet sweet demeanor. She goes limp when you pick her up.',
+    idealHome: 'Calm household with time for regular grooming. Princess needs someone who appreciates her gentle nature.',
+    medicalHistory: 'Senior cat, requires regular vet checkups, all vaccinations current, spayed, microchipped',
   },
 ]
 
@@ -210,40 +506,83 @@ export default function BrowsePage() {
     energy: 'Medium' as string,
     description: '',
     personality: '',
-    idealHome: '',
-    traits: ''
+    idealHome: ''
   })
 
   // Dynamic scores and AI tags
   const [scoresById, setScoresById] = useState<Record<number, { compatibility?: number; deepMatch?: number }>>({})
   const [tagsById, setTagsById] = useState<Record<number, string[]>>({})
+  const [adoptionTimeline, setAdoptionTimeline] = useState<Record<number, number>>({}) // Days until adoption
   const [loading, setLoading] = useState(true)
   const [sortedPets, setSortedPets] = useState<typeof PETS>([])
+  const [viewMode, setViewMode] = useState<'cards' | 'grid'>('cards')
+  const [showAllPets, setShowAllPets] = useState(false) // Toggle for showing all pets vs KNN filtered
+  const [showAlgorithmInfo, setShowAlgorithmInfo] = useState<string | null>(null) // Track which algorithm info to show
+  
+  // KNN Filtering - Minimum match threshold for "nearest neighbors"
+  const MIN_MATCH_THRESHOLD = 75 // Only show pets with 75%+ compatibility
+  
+  // Algorithm information
+  const ALGORITHM_INFO = {
+    svm: {
+      title: 'Support Vector Machine (SVM)',
+      description: 'A powerful machine learning algorithm that analyzes your profile and pet characteristics to calculate compatibility scores.',
+      use: 'Used to predict the Match Score - how well a pet fits your lifestyle, activity level, and home environment based on multiple factors.'
+    },
+    ann: {
+      title: 'Artificial Neural Network (ANN)',
+      description: 'An advanced deep learning model inspired by the human brain, capable of recognizing complex patterns in data.',
+      use: 'Provides the Deep Match Score - a sophisticated analysis that considers subtle behavioral patterns and deeper compatibility factors beyond basic traits.'
+    },
+    lr: {
+      title: 'Linear Regression',
+      description: 'A statistical model that predicts continuous numerical outcomes based on historical data and pet characteristics.',
+      use: 'Predicts the Adoption Timeline - estimates how many days until a pet is likely to be adopted based on their profile, helping you make timely decisions.'
+    },
+    nb: {
+      title: 'Naive Bayes Classifier',
+      description: 'A probabilistic machine learning algorithm that excels at text classification and categorization tasks.',
+      use: 'Generates AI Tags by analyzing pet descriptions and automatically identifying key traits, temperaments, and characteristics to help you quickly understand each pet.'
+    },
+    knn: {
+      title: 'K-Nearest Neighbors (KNN)',
+      description: 'An algorithm that finds the most similar matches by comparing data points and identifying the "nearest neighbors" based on compatibility.',
+      use: `Filters your pet matches to show only those with ≥${75}% compatibility score, ensuring you see the best possible matches rather than pets that are too far from your preferences.`
+    }
+  }
+  
 
-  // Initial sort on mount - sort by default scores first
-  useEffect(() => {
-    const allPets = [...PETS, ...customPets]
-    const sorted = [...allPets].sort((a, b) => b.compatibility - a.compatibility)
-    setSortedPets(sorted)
-  }, [])
 
   // Re-sort pets whenever AI scores load
   useEffect(() => {
-    if (sortedPets.length === 0) return
+    const allPets = [...PETS, ...customPets]
     
-    const petsWithScores = sortedPets.map(pet => ({
+    const petsWithScores = allPets.map(pet => ({
       ...pet,
       currentMatchScore: scoresById[pet.id]?.compatibility ?? pet.compatibility
     }))
     
-    const sorted = [...petsWithScores].sort((a, b) => b.currentMatchScore - a.currentMatchScore)
+    // KNN Filter: Only show "nearest neighbors" with match score >= threshold (unless showAllPets is true)
+    const filteredPets = showAllPets 
+      ? petsWithScores 
+      : petsWithScores.filter(pet => pet.currentMatchScore >= MIN_MATCH_THRESHOLD)
+    
+    const sorted = [...filteredPets].sort((a, b) => b.currentMatchScore - a.currentMatchScore)
     setSortedPets(sorted)
-  }, [scoresById, customPets])
+  }, [scoresById, customPets, showAllPets])
 
   // Get user's pawsonality from quiz
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
+        // First try to get the stored pawsonality directly from quiz
+        const storedPawsonality = window.localStorage.getItem('userPawsonality')
+        if (storedPawsonality) {
+          setUserPawsonality(storedPawsonality)
+          return
+        }
+        
+        // Fallback: derive from profile if pawsonality not stored
         const raw = window.localStorage.getItem('adopterProfile')
         if (raw) {
           const profile = JSON.parse(raw)
@@ -297,6 +636,35 @@ export default function BrowsePage() {
     return { Pet_Energy_Level, Pet_Good_With_Kids, Pet_Size: size, Pet_Grooming_Needs }
   }
 
+  const derivePetAgeGroup = (pet: typeof PETS[number]): 'Puppy/Kitten' | 'Young_Adult' | 'Senior' => {
+    const age = pet.age.years
+    const breedLower = pet.breed.toLowerCase()
+    const isDog = /(dog|retriever|labrador|beagle|terrier|shepherd|poodle|bulldog|husky)/i.test(breedLower)
+    const isCat = /(cat|siamese|persian|shorthair|longhair|tabby|calico)/i.test(breedLower)
+    
+    // Determine age group based on pet type
+    if (isDog) {
+      if (age < 2) return 'Puppy/Kitten'
+      if (age >= 7) return 'Senior'
+      return 'Young_Adult'
+    } else if (isCat) {
+      if (age < 2) return 'Puppy/Kitten'
+      if (age >= 10) return 'Senior'
+      return 'Young_Adult'
+    }
+    
+    // Default for unknown types
+    if (age < 2) return 'Puppy/Kitten'
+    if (age >= 7) return 'Senior'
+    return 'Young_Adult'
+  }
+
+  const derivePetType = (pet: typeof PETS[number]): 'Dog' | 'Cat' => {
+    const breedLower = pet.breed.toLowerCase()
+    const isDog = /(dog|retriever|labrador|beagle|terrier|shepherd|poodle|bulldog|husky)/i.test(breedLower)
+    return isDog ? 'Dog' : 'Cat'
+  }
+
   // Fetch AI scores
   useEffect(() => {
     let cancelled = false
@@ -315,10 +683,21 @@ export default function BrowsePage() {
             Pet_Size: petProfile.Pet_Size,
             Pet_Grooming_Needs: petProfile.Pet_Grooming_Needs,
           }
-          const [m, d, t] = await Promise.all([
+          
+          // Prepare adoption prediction payload
+          const adoptionPayload = {
+            Type: derivePetType(pet),
+            Age_Group: derivePetAgeGroup(pet),
+            Size: petProfile.Pet_Size,
+            Energy_Level: petProfile.Pet_Energy_Level,
+            Grooming_Needs: petProfile.Pet_Grooming_Needs,
+          }
+          
+          const [m, d, t, a] = await Promise.all([
             api.matchScore(payload),
             api.deepMatch(payload),
             api.autoTags({ description: pet.description }),
+            api.adoptionPrediction(adoptionPayload),
           ])
           if (!cancelled) {
             setScoresById(prev => ({
@@ -330,6 +709,9 @@ export default function BrowsePage() {
             }))
             if (t && Array.isArray(t.tags)) {
               setTagsById(prev => ({ ...prev, [pet.id]: t.tags }))
+            }
+            if (a && typeof a.predicted_days === 'number') {
+              setAdoptionTimeline(prev => ({ ...prev, [pet.id]: a.predicted_days }))
             }
           }
         })
@@ -407,7 +789,7 @@ export default function BrowsePage() {
       name: newPetForm.name,
       age: { years: parseInt(newPetForm.age) || 2, months: 0 },
       breed: newPetForm.breed,
-      image: newPetForm.image || '/images/entries/a1.jpg', // Default image if not provided
+      image: newPetForm.image || '/images/2.png', // Default placeholder image for dogs
       location: newPetForm.location || 'Unknown Location',
       shelter: newPetForm.shelter || 'Community Shelter',
       shelterContact: {
@@ -418,21 +800,21 @@ export default function BrowsePage() {
       compatibility: 0, // Will be calculated by AI
       deepMatch: 0, // Will be calculated by AI
       distance: newPetForm.distance || '0 Km Away',
-      traits: newPetForm.traits ? newPetForm.traits.split(',').map(t => t.trim()) : ['Friendly'],
-      characteristics: ['Vaccinated'], // Default
       size: newPetForm.size,
       energy: newPetForm.energy,
       description: newPetForm.description,
       personality: newPetForm.personality || newPetForm.description,
       idealHome: newPetForm.idealHome || 'Loving home with care and attention',
       medicalHistory: 'Please inquire with shelter',
+      isCustom: true, // Mark as custom companion
     }
 
-    // Add to custom pets
-    setCustomPets(prev => [...prev, newPet])
+    // Close dialog and show loading state
+    setShowAddCompanionDialog(false)
+    setLoading(true)
 
-    // Fetch AI scores for the new pet
     try {
+      // Fetch AI scores for the new pet
       const adopterProfile = getAdopterProfile()
       const petProfile = derivePetProfile(newPet)
       const payload = {
@@ -445,12 +827,24 @@ export default function BrowsePage() {
         Pet_Grooming_Needs: petProfile.Pet_Grooming_Needs,
       }
 
-      const [m, d, t] = await Promise.all([
+      // Prepare adoption prediction payload
+      const adoptionPayload = {
+        Type: derivePetType(newPet),
+        Age_Group: derivePetAgeGroup(newPet),
+        Size: petProfile.Pet_Size,
+        Energy_Level: petProfile.Pet_Energy_Level,
+        Grooming_Needs: petProfile.Pet_Grooming_Needs,
+      }
+
+      // Fetch all AI scores
+      const [m, d, t, a] = await Promise.all([
         api.matchScore(payload),
         api.deepMatch(payload),
         api.autoTags({ description: newPet.description }),
+        api.adoptionPrediction(adoptionPayload),
       ])
 
+      // Update scores with AI results
       setScoresById(prev => ({
         ...prev,
         [newPet.id]: {
@@ -462,11 +856,23 @@ export default function BrowsePage() {
       if (t && Array.isArray(t.tags)) {
         setTagsById(prev => ({ ...prev, [newPet.id]: t.tags }))
       }
+      
+      if (a && typeof a.predicted_days === 'number') {
+        setAdoptionTimeline(prev => ({ ...prev, [newPet.id]: a.predicted_days }))
+      }
+
+      // Add to custom pets AFTER getting AI scores
+      setCustomPets(prev => [...prev, newPet])
+
     } catch (e) {
       console.error('Error fetching scores for new pet:', e)
+      // Still add the pet even if AI fails
+      setCustomPets(prev => [...prev, newPet])
+    } finally {
+      setLoading(false)
     }
 
-    // Reset form and close dialog
+    // Reset form
     setNewPetForm({
       name: '',
       age: '',
@@ -483,11 +889,9 @@ export default function BrowsePage() {
       energy: 'Medium',
       description: '',
       personality: '',
-      idealHome: '',
-      traits: ''
+      idealHome: ''
     })
     setImagePreview(null)
-    setShowAddCompanionDialog(false)
   }
 
   return (
@@ -503,6 +907,17 @@ export default function BrowsePage() {
         }
       `}</style>
 
+      {/* Loading Screen - Show until AI scores are loaded */}
+      {loading && (
+        <div className="fixed inset-0 bg-white z-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mb-4"></div>
+            <p className="text-xl font-semibold text-gray-900 mb-2">Finding Your Perfect Matches</p>
+            <p className="text-sm text-gray-600">Our AI is analyzing compatibility scores...</p>
+          </div>
+        </div>
+      )}
+
       {/* Fixed Header */}
       <div className="fixed top-0 left-0 right-0 bg-white z-40 border-b border-gray-200">
         <div className="max-w-6xl mx-auto px-4 py-4">
@@ -516,13 +931,50 @@ export default function BrowsePage() {
             </button>
 
             {/* Center: Pawsonality Badge */}
-            <div className="flex-1 flex justify-center gap-4">
+            <div className="flex-1 flex justify-center gap-4 items-center">
               {userPawsonality && (
-                <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-full">
-                  <span className="text-3xl">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.emoji}</span>
-                  <span className="text-base font-semibold text-gray-900">{userPawsonality}</span>
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-full">
+                    <span className="text-3xl">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.emoji}</span>
+                    <span className="text-base font-semibold text-gray-900">{userPawsonality}</span>
+                  </div>
+          
                 </div>
               )}
+              
+              {/* KNN Filter Badge */}
+              {!loading && (
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full">
+                    <span className="text-sm font-medium text-gray-900">
+                      {showAllPets 
+                        ? `All ${sortedPets.length} pets` 
+                        : `${sortedPets.length} matches`}
+                    </span>
+                    <button
+                      onClick={() => setShowAlgorithmInfo('knn')}
+                      className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
+                    >
+                      <Info className="w-3 h-3 text-gray-500 hover:text-gray-700" />
+                    </button>
+                    <button
+                      onClick={() => setShowAllPets(!showAllPets)}
+                      className="ml-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-full transition-colors"
+                    >
+                      {showAllPets ? 'Filter' : 'Show All'}
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {/* View Toggle */}
+              <button
+                onClick={() => setViewMode(viewMode === 'cards' ? 'grid' : 'cards')}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors"
+              >
+                {viewMode === 'cards' ? <Grid3x3 className="w-4 h-4" /> : <LayoutList className="w-4 h-4" />}
+                {viewMode === 'cards' ? 'Grid View' : 'Card View'}
+              </button>
               
               {/* Add Companion Button */}
               <button
@@ -547,6 +999,155 @@ export default function BrowsePage() {
 
       {/* Cards Container with Snap Scroll */}
       <div>
+        {sortedPets.length === 0 && !loading && !showAllPets ? (
+          /* No Matches Found */
+          <div className="pt-24 pb-8 px-4 max-w-4xl mx-auto">
+            <div className="bg-gray-50 rounded-xl p-12 text-center">
+              <div className="text-6xl mb-4">🔍</div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">No Close Matches Found</h2>
+              <p className="text-gray-600 mb-4">
+                Our KNN algorithm couldn't find pets matching your profile with at least {MIN_MATCH_THRESHOLD}% compatibility.
+              </p>
+              <div className="flex gap-4 justify-center">
+                <button
+                  onClick={() => setShowAllPets(true)}
+                  className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+                >
+                  Show All Pets Anyway
+                </button>
+                <button
+                  onClick={() => router.push('/quiz')}
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                >
+                  Retake Quiz
+                </button>
+                <button
+                  onClick={() => setShowAddCompanionDialog(true)}
+                  className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-900 rounded-lg font-medium transition-colors"
+                >
+                  Add a Pet Manually
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : viewMode === 'grid' ? (
+          /* Grid View */
+          <div className="pt-24 pb-8 px-4 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {sortedPets.map((pet, index) => {
+                const matchScore = scoresById[pet.id]?.compatibility ?? pet.compatibility
+                const deepMatchScore = scoresById[pet.id]?.deepMatch ?? pet.deepMatch
+                const adoptionDays = adoptionTimeline[pet.id]
+
+                return (
+                  <div
+                    key={pet.id}
+                    className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all hover:border-blue-300"
+                  >
+                    {/* Image */}
+                    <div className="relative h-48 w-full">
+                      <Image
+                        src={pet.image}
+                        alt={pet.name}
+                        fill
+                        className="object-cover"
+                      />
+                      {index === 0 && sortedPets.length > 1 && (
+                        <div className="absolute top-2 left-2 bg-black text-white text-xs font-bold px-3 py-1 rounded-full">
+                          ✨ Best Match
+                        </div>
+                      )}
+                      {(pet as any).isCustom === true && (
+                        <div className="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                          🆕 Added
+                        </div>
+                      )}
+                      {showAllPets && matchScore < MIN_MATCH_THRESHOLD && !((pet as any).isCustom) && (
+                        <div className="absolute bottom-2 right-2 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                          Below Threshold
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-gray-900 mb-1">{pet.name}, {pet.age.years}</h3>
+                      <p className="text-sm text-gray-600 mb-3">{pet.breed}</p>
+
+                      {/* Scores */}
+                      <div className="grid grid-cols-2 gap-2 mb-3">
+                        <div className="bg-blue-50 rounded-lg p-2 text-center">
+                          <div className="flex items-center justify-center gap-1">
+                            <p className="text-xs text-blue-600 font-medium">Match</p>
+                            <button onClick={() => setShowAlgorithmInfo('svm')} className="hover:bg-blue-100 rounded-full p-0.5">
+                              <Info className="w-3 h-3 text-blue-400" />
+                            </button>
+                          </div>
+                          <p className="text-xl font-bold text-blue-700">{matchScore}%</p>
+                        </div>
+                        <div className="bg-purple-50 rounded-lg p-2 text-center">
+                          <div className="flex items-center justify-center gap-1">
+                            <p className="text-xs text-purple-600 font-medium">Deep</p>
+                            <button onClick={() => setShowAlgorithmInfo('ann')} className="hover:bg-purple-100 rounded-full p-0.5">
+                              <Info className="w-3 h-3 text-purple-400" />
+                            </button>
+                          </div>
+                          <p className="text-xl font-bold text-purple-700">{deepMatchScore}%</p>
+                        </div>
+                      </div>
+
+                      {adoptionDays && (
+                        <div className="bg-green-50 rounded-lg p-2 text-center mb-3">
+                          <div className="flex items-center justify-center gap-1">
+                            <p className="text-xs text-green-600 font-medium">Timeline</p>
+                            <button onClick={() => setShowAlgorithmInfo('lr')} className="hover:bg-green-100 rounded-full p-0.5">
+                              <Info className="w-3 h-3 text-green-400" />
+                            </button>
+                          </div>
+                          <p className="text-lg font-bold text-green-700">{adoptionDays} days</p>
+                        </div>
+                      )}
+
+                      {/* AI Tags from Naive Bayes */}
+                      {tagsById[pet.id] && tagsById[pet.id].length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {tagsById[pet.id].slice(0, 4).map((tag, i) => (
+                            <span key={i} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Buttons */}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => {
+                            setSelectedPet(pet)
+                            setShowDetailsDialog(true)
+                          }}
+                          className="flex-1 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors"
+                        >
+                          View Details
+                        </button>
+                        <button
+                          onClick={() => {
+                            setSelectedPet(pet)
+                            setShowContactDialog(true)
+                          }}
+                          className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors"
+                        >
+                          <Heart className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        ) : (
+          /* Card View */
         <div 
           ref={scrollContainerRef} 
           className="snap-container h-screen overflow-y-scroll snap-y snap-mandatory"
@@ -554,7 +1155,8 @@ export default function BrowsePage() {
           {sortedPets.map((pet, index) => {
             const matchScore = scoresById[pet.id]?.compatibility ?? pet.compatibility
             const deepMatchScore = scoresById[pet.id]?.deepMatch ?? pet.deepMatch
-            const isBestMatch = index === 0
+            // Best match is the one with highest compatibility score (first in sorted array)
+            const isBestMatch = index === 0 && sortedPets.length > 1
 
             return (
               <div 
@@ -562,17 +1164,6 @@ export default function BrowsePage() {
                 id={`pet-card-${index}`} 
                 className="h-screen snap-start snap-always flex flex-col items-center justify-center px-4"
               >
-                {/* Best Match Banner - Only for first card */}
-                {isBestMatch && (
-                  <div className="mb-4 text-center">
-                    <div className="inline-flex items-center gap-2 bg-black text-white px-6 py-3 rounded-full shadow-lg">
-                      <span className="text-2xl">✨</span>
-                      <span className="text-xl font-bold">We've Found Your Best Match!</span>
-                      <span className="text-2xl">✨</span>
-                    </div>
-                  </div>
-                )}
-
                 {/* Card Layout - Image Left, Details Right */}
                 <div className={`flex gap-6 mt-15 bg-white rounded-md overflow-hidden max-w-6xl w-full`}>
                 
@@ -586,6 +1177,20 @@ export default function BrowsePage() {
                       priority={index < 2}
                     />
                     
+                    {/* Best Match Badge - Top Left */}
+                    {isBestMatch && (
+                      <div className="absolute top-4 left-4 bg-black text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                        ✨ Best Match
+                      </div>
+                    )}
+
+                    {/* Added Badge - Top Right */}
+                    {(pet as any).isCustom === true && (
+                      <div className="absolute top-4 right-4 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                        🆕 Added
+                      </div>
+                    )}
+                    
                     {/* Pet Info Overlay - Bottom Left */}
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4">
                       <div className="flex items-center gap-1 mb-2">
@@ -598,10 +1203,17 @@ export default function BrowsePage() {
                       <p className="text-sm text-white/90 mb-1">{pet.breed}</p>
                       <p className="text-xs text-white/80">{pet.distance}</p>
                     </div>
+                    
+                    {/* Below Threshold Badge - Bottom Right */}
+                    {showAllPets && matchScore < MIN_MATCH_THRESHOLD && !((pet as any).isCustom) && (
+                      <div className="absolute bottom-20 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                        ⚠️ Below {MIN_MATCH_THRESHOLD}% Threshold
+                      </div>
+                    )}
                   </div>
 
                   {/* Right Side - Details */}
-                  <div className="flex-1 p-6 overflow-y-auto max-h-96 relative">
+                  <div className="flex-1 p-6 max-h-96 relative" style={{ overflowY: 'auto', overflowX: 'visible' }}>
                     {/* Heart Button - Top Right */}
                     <button
                       onClick={() => {
@@ -614,33 +1226,81 @@ export default function BrowsePage() {
                     </button>
 
                     {/* Match Scores - No Background */}
-                    <div className="flex gap-8 mb-6 pr-16">
+                    <div className="flex gap-8 mb-4 pr-16">
                       <div>
-                        <div className="text-sm font-medium text-gray-500 mb-1">Match</div>
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className="text-sm font-medium text-gray-500">Match</span>
+                          <button
+                            onClick={() => setShowAlgorithmInfo('svm')}
+                            className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
+                          >
+                            <Info className="w-3 h-3 text-gray-400 hover:text-blue-600" />
+                          </button>
+                        </div>
                         <div className="flex items-center gap-0.5">
                           <p className="text-4xl font-bold text-gray-900">{matchScore}</p>
                           <span className="text-4xl font-bold text-gray-900">%</span>
                         </div>
                       </div>
                       <div>
-                        <div className="text-sm font-medium text-gray-500 mb-1">Deep</div>
+                        <div className="flex items-center gap-1 mb-1">
+                          <span className="text-sm font-medium text-gray-500">Deep</span>
+                          <button
+                            onClick={() => setShowAlgorithmInfo('ann')}
+                            className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
+                          >
+                            <Info className="w-3 h-3 text-gray-400 hover:text-purple-600" />
+                          </button>
+                        </div>
                         <div className="flex items-center gap-0.5">
                            <p className="text-4xl font-bold text-gray-900">{deepMatchScore}</p>
                           <span className="text-4xl font-bold text-gray-900">%</span>
                         </div>
                       </div>
+                      {adoptionTimeline[pet.id] && (
+                        <div>
+                          <div className="flex items-center gap-1 mb-1">
+                            <span className="text-sm font-medium text-gray-500">Timeline</span>
+                            <button
+                              onClick={() => setShowAlgorithmInfo('lr')}
+                              className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
+                            >
+                              <Info className="w-3 h-3 text-gray-400 hover:text-green-600" />
+                            </button>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <p className="text-4xl font-bold text-green-600">{adoptionTimeline[pet.id]}</p>
+                            <span className="text-sm font-medium text-gray-600">days</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Traits */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {pet.traits.map((trait) => (
-                        <span
-                          key={trait}
-                          className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full"
-                        >
-                          {trait}
-                        </span>
-                      ))}
+                    {/* AI Tags - Only show if available */}
+                    <div className="mb-4">
+                      {tagsById[pet.id] && tagsById[pet.id].length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-2">
+                          {tagsById[pet.id].map((tag, i) => (
+                            <span
+                              key={i}
+                              className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      {tagsById[pet.id] && tagsById[pet.id].length > 0 && (
+                        <div className="flex items-center gap-1 mt-2">
+                          <span className="text-xs text-gray-500">AI Tags</span>
+                          <button
+                            onClick={() => setShowAlgorithmInfo('nb')}
+                            className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
+                          >
+                            <Info className="w-3 h-3 text-gray-400 hover:text-green-600" />
+                          </button>
+                        </div>
+                      )}
                     </div>
 
                     {/* About Section */}
@@ -649,17 +1309,7 @@ export default function BrowsePage() {
                       <p className="text-sm text-gray-700 leading-relaxed">{pet.description}</p>
                     </div>
 
-                     {/* Characteristics */}
-                        <div className="mb-4">
-                          <h3 className="text-sm font-bold text-gray-900 mb-3">Characteristics</h3>
-                          <div className="flex flex-wrap gap-2">
-                            {pet.characteristics.map((char) => (
-                              <span key={char} className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-lg">
-                                {char}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
+
 
                     {/* Collapse/Expand Button */}
                     <button
@@ -721,8 +1371,10 @@ export default function BrowsePage() {
             )
           })}
         </div>
+        )}
 
-        {/* Navigation Arrows - Far Right, Close Together */}
+        {/* Navigation Arrows - Far Right, Close Together - Only in Card View */}
+        {viewMode === 'cards' && (
         <div className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-50">
           {currentIndex > 0 && (
             <button
@@ -742,6 +1394,7 @@ export default function BrowsePage() {
             </button>
           )}
         </div>
+        )}
       </div>
 
       {/* Contact Dialog */}
@@ -829,19 +1482,42 @@ export default function BrowsePage() {
               </div>
 
               {/* Scores */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-3 gap-4">
                 <div className="p-4 bg-blue-50 rounded-xl">
-                  <div className="text-xs font-semibold text-blue-600 mb-1">Match Score</div>
+                  <div className="flex items-center gap-1 mb-1">
+                    <div className="text-xs font-semibold text-blue-600">Match</div>
+                    <button onClick={() => setShowAlgorithmInfo('svm')} className="hover:bg-blue-100 rounded-full p-0.5">
+                      <Info className="w-3 h-3 text-blue-400" />
+                    </button>
+                  </div>
                   <div className="text-3xl font-bold text-blue-700">
                     {scoresById[selectedPet.id]?.compatibility ?? selectedPet.compatibility}%
                   </div>
                 </div>
                 <div className="p-4 bg-purple-50 rounded-xl">
-                  <div className="text-xs font-semibold text-purple-600 mb-1">AI DeepMatch</div>
+                  <div className="flex items-center gap-1 mb-1">
+                    <div className="text-xs font-semibold text-purple-600">Deep</div>
+                    <button onClick={() => setShowAlgorithmInfo('ann')} className="hover:bg-purple-100 rounded-full p-0.5">
+                      <Info className="w-3 h-3 text-purple-400" />
+                    </button>
+                  </div>
                   <div className="text-3xl font-bold text-purple-700">
                     {scoresById[selectedPet.id]?.deepMatch ?? selectedPet.deepMatch}%
                   </div>
                 </div>
+                {adoptionTimeline[selectedPet.id] && (
+                  <div className="p-4 bg-green-50 rounded-xl">
+                    <div className="flex items-center gap-1 mb-1">
+                      <div className="text-xs font-semibold text-green-600">Timeline</div>
+                      <button onClick={() => setShowAlgorithmInfo('lr')} className="hover:bg-green-100 rounded-full p-0.5">
+                        <Info className="w-3 h-3 text-green-400" />
+                      </button>
+                    </div>
+                    <div className="text-3xl font-bold text-green-700">
+                      {adoptionTimeline[selectedPet.id]} <span className="text-base font-medium">days</span>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Description */}
@@ -868,22 +1544,17 @@ export default function BrowsePage() {
                 <p className="text-sm text-gray-700 leading-relaxed">{selectedPet.medicalHistory}</p>
               </div>
 
-              {/* Characteristics */}
-              <div>
-                <h3 className="text-sm font-bold text-gray-900 mb-2">Characteristics</h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedPet.characteristics.map((char) => (
-                    <span key={char} className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-lg">
-                      {char}
-                    </span>
-                  ))}
-                </div>
-              </div>
+
 
               {/* AI Tags */}
               {tagsById[selectedPet.id] && tagsById[selectedPet.id].length > 0 && (
                 <div>
-                  <h3 className="text-sm font-bold text-gray-900 mb-2">AI Tags</h3>
+                  <div className="flex items-center gap-1 mb-2">
+                    <h3 className="text-sm font-bold text-gray-900">AI Tags</h3>
+                    <button onClick={() => setShowAlgorithmInfo('nb')} className="hover:bg-gray-100 rounded-full p-0.5">
+                      <Info className="w-3 h-3 text-gray-400" />
+                    </button>
+                  </div>
                   <div className="flex flex-wrap gap-2">
                     {tagsById[selectedPet.id].map((tag, i) => (
                       <span key={i} className="px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-lg">
@@ -916,13 +1587,6 @@ export default function BrowsePage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
-      {/* Loading Indicator */}
-      {loading && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white px-4 py-3 rounded-full shadow-lg z-50">
-          <p className="text-xs font-medium text-gray-600">Loading AI scores...</p>
-        </div>
-      )}
 
       {/* Add Companion Dialog */}
       <Dialog open={showAddCompanionDialog} onOpenChange={setShowAddCompanionDialog}>
@@ -1067,15 +1731,11 @@ export default function BrowsePage() {
               />
             </div>
 
-            {/* Traits */}
-            <div>
-              <Label htmlFor="traits" className="mb-2 block">Traits (comma-separated)</Label>
-              <Input
-                id="traits"
-                value={newPetForm.traits}
-                onChange={(e) => setNewPetForm({...newPetForm, traits: e.target.value})}
-                placeholder="e.g., Friendly, Active, Loyal, Playful"
-              />
+            {/* Note: AI Tags will be automatically generated using Naive Bayes model */}
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+              <p className="text-sm text-blue-800">
+                <span className="font-semibold">🤖 AI Tags:</span> Tags will be automatically generated from the description using our Naive Bayes model after you add the companion.
+              </p>
             </div>
 
             {/* Location Info */}
@@ -1161,6 +1821,41 @@ export default function BrowsePage() {
             >
               <Plus className="w-4 h-4 mr-2" />
               Add & Calculate Match
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Algorithm Info Dialog */}
+      <Dialog open={showAlgorithmInfo !== null} onOpenChange={() => setShowAlgorithmInfo(null)}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold">
+              {showAlgorithmInfo && ALGORITHM_INFO[showAlgorithmInfo as keyof typeof ALGORITHM_INFO]?.title}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {showAlgorithmInfo && (
+            <div className="space-y-4 py-4">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-700 mb-2">What is it?</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {ALGORITHM_INFO[showAlgorithmInfo as keyof typeof ALGORITHM_INFO]?.description}
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="text-sm font-semibold text-gray-700 mb-2">How we use it</h4>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {ALGORITHM_INFO[showAlgorithmInfo as keyof typeof ALGORITHM_INFO]?.use}
+                </p>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button onClick={() => setShowAlgorithmInfo(null)} className="w-full">
+              Got it!
             </Button>
           </DialogFooter>
         </DialogContent>
