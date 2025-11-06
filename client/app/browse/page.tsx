@@ -574,9 +574,8 @@ export default function BrowsePage() {
                 )}
 
                 {/* Card Layout - Image Left, Details Right */}
-                <div className={`flex gap-6 bg-white rounded-2xl overflow-hidden border-2 max-w-6xl w-full ${
-                  isBestMatch ? 'border-black' : 'border-gray-200'
-                }`}>
+                <div className={`flex gap-6 mt-15 bg-white rounded-md overflow-hidden max-w-6xl w-full`}>
+                
                   {/* Left Side - Image */}
                   <div className="relative w-[400px] h-96 flex-shrink-0">
                     <Image

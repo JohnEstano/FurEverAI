@@ -65,7 +65,7 @@ export default function Hero() {
 
 
             <a
-              href="https://github.com"
+              href="https://github.com/JohnEstano/FurEverAI"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-3 sm:py-3.5 bg-black text-white rounded-md font-medium text-sm sm:text-base hover:bg-zinc-700 transition-colors shadow-sm relative z-20 flex items-center justify-center gap-2"

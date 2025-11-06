@@ -169,7 +169,7 @@ export default function AboutPage() {
 
         {/* Pawsonality Types */}
         <section className="mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-gray-900 pb-2">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 border-gray-900 pb-2">
             Meet Our 8 Pawsonality Types
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-8">
@@ -221,7 +221,7 @@ export default function AboutPage() {
 
         {/* Our Vision */}
         <section className="mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-6 border-b-4 border-gray-900 pb-2">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 border-gray-900 pb-2">
             Our Vision
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4 italic font-semibold">
@@ -230,14 +230,17 @@ export default function AboutPage() {
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
             By harnessing the power of data and compassionate technology, PawTech Inc. is bridging the gap between hope and home. We are committed to reducing shelter burdens, eliminating the guesswork for adopters, and creating more "welcome home" moments that last a lifetime.
           </p>
-          <div className="bg-gray-50 border-l-4 border-blue-600 p-6 mt-8">
-            <p className="text-lg text-gray-900 mb-2">
-              <strong>Ready to find your furever friend?</strong> Take the Pawsonality Quiz today.
-            </p>
-            <p className="text-lg text-gray-900">
-              <strong>Are you a shelter interested in joining our network?</strong> Learn more about our shelter tools.
-            </p>
-          </div>
+          
+        </section>
+          <section className="mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 border-gray-900 pb-2">
+            Our Mission
+          </h2>
+          <p className="text-lg leading-relaxed mb-4  text-gray-700">
+           Our mission at Furever.ai is to unite shelter pets with their ideal human companions. Leveraging advanced machine learning, we go beyond typical adoption profiles, delving into the unique personalities and characteristics of both pets and potential owners. Our goal is to create meaningful, lasting connections, ensuring every shelter animal finds a loving home and every owner discovers their perfect Furever friend.
+          </p>
+        
+          
         </section>
 
         {/* FAQ Section */}
