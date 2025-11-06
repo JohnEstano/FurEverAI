@@ -6,7 +6,7 @@ const ENV = (globalThis as any)?.process?.env || {};
 const API_BASE_URL =
   ENV.NEXT_PUBLIC_API_URL ||
   ENV.NEXT_PUBLIC_API_BASE ||
-  'http://127.0.0.1:5000';
+  'https://fureverai-api.onrender.com';
 
 // Common fetch options to disable caching in the browser
 const noCache: RequestInit = {
