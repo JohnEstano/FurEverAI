@@ -5,19 +5,22 @@ import api from '@/lib/api'
 // ============================================
 // EXAMPLE 1: Personality Quiz → Decision Tree
 // ============================================
-export async function handleQuizComplete(answers: string[]) {
+export async function handleQuizComplete(quizData: {
+  Housing_Type: string;
+  Has_Kids: number;
+  Time_At_Home: number;
+  Activity_Level: number;
+  Experience_Level: string;
+}) {
   try {
-    const result = await api.predict({
-      type: 'personality_assessment',
-      answers: answers,
-      timestamp: new Date().toISOString()
-    })
+    const result = await api.predictPawsonality(quizData)
     
     // Expected response from ML model:
     // {
-    //   pawsonality_type: "Active Adventurer",
-    //   confidence: 0.92,
-    //   traits: ["high_energy", "experienced", "active"]
+    //   status: "success",
+    //   pawsonality: "Active Adventurer",
+    //   description: "High energy, experienced, needs active pets",
+    //   message: "You're a Active Adventurer!"
     // }
     
     return result
@@ -30,19 +33,23 @@ export async function handleQuizComplete(answers: string[]) {
 // ============================================
 // EXAMPLE 2: Pet Matching → SVM
 // ============================================
-export async function calculateCompatibility(userId: string, petId: string) {
+export async function calculateCompatibility(matchData: {
+  Activity_Level: number;
+  Has_Kids: number;
+  Experience_Level: string;
+  Pet_Energy_Level: number;
+  Pet_Good_With_Kids: number;
+  Pet_Size: string;
+  Pet_Grooming_Needs: string;
+}) {
   try {
-    const result = await api.predict({
-      type: 'compatibility_match',
-      user_id: userId,
-      pet_id: petId
-    })
+    const result = await api.matchScore(matchData)
     
     // Expected response:
     // {
-    //   compatibility_score: 92,
-    //   match_reasons: ["Similar energy levels", "Compatible lifestyle"],
-    //   recommendation: "Excellent match!"
+    //   status: "success",
+    //   match_score: 92,
+    //   message: "92% Match"
     // }
     
     return result
@@ -53,24 +60,30 @@ export async function calculateCompatibility(userId: string, petId: string) {
 }
 
 // ============================================
-// EXAMPLE 3: Pet Image Upload → Neural Network
+// EXAMPLE 3: Deep Match Score → ANN
 // ============================================
-export async function analyzePetImage(file: File) {
+export async function calculateDeepMatch(matchData: {
+  Activity_Level: number;
+  Has_Kids: number;
+  Experience_Level: string;
+  Pet_Energy_Level: number;
+  Pet_Good_With_Kids: number;
+  Pet_Size: string;
+  Pet_Grooming_Needs: string;
+}) {
   try {
-    const result = await api.predictWithFile(file)
+    const result = await api.deepMatch(matchData)
     
     // Expected response:
     // {
-    //   breed: "Golden Retriever",
-    //   confidence: 0.95,
-    //   age_estimate: 3,
-    //   traits: ["friendly", "active", "family_friendly"],
-    //   deep_match_score: 95
+    //   status: "success",
+    //   deep_match_score: 95,
+    //   message: "AI DeepMatch: 95%"
     // }
     
     return result
   } catch (error) {
-    console.error('Image analysis error:', error)
+    console.error('Deep match error:', error)
     return null
   }
 }
@@ -80,18 +93,16 @@ export async function analyzePetImage(file: File) {
 // ============================================
 export async function getSimilarPets(petId: string, count: number = 5) {
   try {
-    const result = await api.predict({
-      type: 'similar_pets',
-      pet_id: petId,
-      count: count
+    const result = await api.recommend({
+      Pet_ID: petId,
+      n_recommendations: count
     })
     
     // Expected response:
     // {
-    //   similar_pets: [
-    //     { id: 123, name: "Max", similarity: 0.89 },
-    //     { id: 456, name: "Luna", similarity: 0.85 }
-    //   ]
+    //   status: "success",
+    //   recommended_pet_ids: ["P0051", "P0052", "P0053", "P0054", "P0055"],
+    //   message: "KNN recommendations for P0050"
     // }
     
     return result
@@ -106,15 +117,12 @@ export async function getSimilarPets(petId: string, count: number = 5) {
 // ============================================
 export async function autoTagPet(description: string) {
   try {
-    const result = await api.predict({
-      type: 'auto_tag',
-      description: description
-    })
+    const result = await api.autoTags({ description })
     
     // Expected response:
     // {
-    //   tags: ["family-friendly", "apartment-approved", "low-maintenance"],
-    //   confidence_scores: { "family-friendly": 0.92, ... }
+    //   status: "success",
+    //   tags: ["family-friendly", "apartment-approved", "low-maintenance"]
     // }
     
     return result
@@ -127,18 +135,21 @@ export async function autoTagPet(description: string) {
 // ============================================
 // EXAMPLE 6: Adoption Prediction → Linear Regression
 // ============================================
-export async function predictAdoptionTime(petId: string) {
+export async function predictAdoptionTime(petData: {
+  Type: string;
+  Age_Group: string;
+  Size: string;
+  Energy_Level: number;
+  Grooming_Needs: string;
+}) {
   try {
-    const result = await api.predict({
-      type: 'adoption_prediction',
-      pet_id: petId
-    })
+    const result = await api.adoptionPrediction(petData)
     
     // Expected response:
     // {
-    //   estimated_days: 12,
-    //   confidence_interval: [8, 16],
-    //   factors: ["High compatibility matches", "Popular breed"]
+    //   status: "success",
+    //   predicted_days: 12,
+    //   message: "Predicted adoption: 12 days"
     // }
     
     return result
@@ -158,7 +169,13 @@ import { handleQuizComplete, calculateCompatibility } from '@/lib/api-examples'
 
 function MyComponent() {
   const handleSubmit = async () => {
-    const result = await handleQuizComplete(['answer1', 'answer2'])
+    const result = await handleQuizComplete({
+      Housing_Type: "Apartment",
+      Has_Kids: 0,
+      Time_At_Home: 2,
+      Activity_Level: 2,
+      Experience_Level: "Past_Owner"
+    })
     console.log(result)
   }
   

@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: fureverai-backend
+    runtime: python
+    plan: free  # Change to 'starter' for production ($7/mo, no sleep)
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server:app --config gunicorn_config.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /api/health

@@ -8,7 +8,20 @@ from pathlib import Path
 
 # app instance  
 app = Flask(__name__)
-CORS(app)  # Enable CORS for Next.js frontend
+
+# Configure CORS for development and production
+# Update the Vercel domain after deployment
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:3000",  # Local development
+            "https://fureverai.vercel.app",  # Production (UPDATE THIS!)
+            "https://*.vercel.app",  # Vercel preview deployments
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
 # =======================================================
 # MODEL LOADING
@@ -520,5 +533,7 @@ def predict_adoption_timeline():
 # =======================================================
 
 if __name__ == '__main__':
+    # Get port from environment variable (Render uses PORT)
+    port = int(os.environ.get('PORT', 5000))
     # Disable reloader to keep single stable process for tooling
-    app.run(debug=True, port=5000, use_reloader=False)
+    app.run(debug=True, host='0.0.0.0', port=port, use_reloader=False)
