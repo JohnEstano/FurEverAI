@@ -618,14 +618,14 @@ export default function BrowsePage() {
                       <div>
                         <div className="text-sm font-medium text-gray-500 mb-1">Match</div>
                         <div className="flex items-center gap-0.5">
-                          <NumberTicker value={matchScore} className="text-4xl font-bold text-gray-900" />
+                          <p className="text-4xl font-bold text-gray-900">{matchScore}</p>
                           <span className="text-4xl font-bold text-gray-900">%</span>
                         </div>
                       </div>
                       <div>
                         <div className="text-sm font-medium text-gray-500 mb-1">Deep</div>
                         <div className="flex items-center gap-0.5">
-                          <NumberTicker value={deepMatchScore} className="text-4xl font-bold text-gray-900" />
+                           <p className="text-4xl font-bold text-gray-900">{deepMatchScore}</p>
                           <span className="text-4xl font-bold text-gray-900">%</span>
                         </div>
                       </div>

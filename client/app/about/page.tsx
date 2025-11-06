@@ -232,6 +232,48 @@ export default function AboutPage() {
           </p>
           
         </section>
+
+        {/* Developers Section */}
+        <section className="mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-6 border-gray-900 pb-2">
+            Meet The Developers
+          </h2>
+          <p className="text-lg text-gray-700 leading-relaxed mb-6">
+            Furever.ai was brought to life by a passionate team of engineers and data scientists dedicated to making a difference in animal welfare.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-lg border-2 border-blue-200 hover:shadow-lg transition">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+                  GD
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Geoffrey Diapana</h3>
+                <p className="text-blue-600 font-semibold">Lead Developer</p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-lg border-2 border-emerald-200 hover:shadow-lg transition">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-emerald-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+                  JE
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">John Estano</h3>
+                <p className="text-emerald-600 font-semibold">ML Engineer</p>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-lg border-2 border-purple-200 hover:shadow-lg transition">
+              <div className="text-center">
+                <div className="w-20 h-20 bg-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+                  EC
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">Earl Coronado</h3>
+                <p className="text-purple-600 font-semibold">Data Scientist</p>
+              </div>
+            </div>
+          </div>
+        </section>
           <section className="mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-6 border-gray-900 pb-2">
             Our Mission
