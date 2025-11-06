@@ -15,7 +15,8 @@ CORS(app, resources={
     r"/api/*": {
         "origins": [
             "http://localhost:3000",  # Local development
-            "https://fureverai.vercel.app",  # Production (UPDATE THIS!)
+            "https://fur-ever-ai.vercel.app",  # Production
+            "https://fureverai.vercel.app",  # Alternative domain
             "https://*.vercel.app",  # Vercel preview deployments
         ],
         "methods": ["GET", "POST", "OPTIONS"],
