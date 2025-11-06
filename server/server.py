@@ -10,7 +10,6 @@ from pathlib import Path
 app = Flask(__name__)
 
 # Configure CORS for development and production
-# Update the Vercel domain after deployment
 CORS(app, resources={
     r"/api/*": {
         "origins": [
@@ -20,7 +19,8 @@ CORS(app, resources={
             "https://*.vercel.app",  # Vercel preview deployments
         ],
         "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
+        "allow_headers": ["Content-Type", "Cache-Control", "Authorization"],
+        "supports_credentials": False
     }
 })
 
