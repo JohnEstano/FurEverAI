@@ -28,14 +28,14 @@ const PAWSONALITY_TYPES = {
   'Patient Nurturer': { emoji: '💝', description: 'Caring soul perfect for special needs or senior pets' },
 }
 
-// Mock pet data - Using placeholder images: 2.png for dogs, 4.png for cats
+// Mock pet data - Using placeholder images: dog1-3.jpg for dogs, cat1-3.jpg for cats
 const PETS = [
   {
     id: 1,
     name: 'Buddy',
     age: { years: 3, months: 2 },
     breed: 'Golden Retriever',
-    image: '/images/2.png',
+    image: '/images/dog1.jpg',
     location: 'San Francisco, CA',
     shelter: 'Happy Paws Shelter',
     shelterContact: {
@@ -58,7 +58,7 @@ const PETS = [
     name: 'Luna',
     age: { years: 2, months: 5 },
     breed: 'Siamese Mix',
-    image: '/images/4.png',
+    image: '/images/cat1.jpg',
     location: 'Oakland, CA',
     shelter: 'Cozy Cats Rescue',
     shelterContact: {
@@ -81,7 +81,7 @@ const PETS = [
     name: 'Max',
     age: { years: 5, months: 0 },
     breed: 'Labrador Mix',
-    image: '/images/2.png',
+    image: '/images/dog2.jpg',
     location: 'Berkeley, CA',
     shelter: 'Second Chance Shelter',
     shelterContact: {
@@ -106,7 +106,7 @@ const PETS = [
     name: 'Whiskers',
     age: { years: 4, months: 3 },
     breed: 'Persian',
-    image: '/images/4.png',
+    image: '/images/cat2.jpg',
     location: 'San Jose, CA',
     shelter: 'Feline Friends Foundation',
     shelterContact: {
@@ -131,7 +131,7 @@ const PETS = [
     name: 'Charlie',
     age: { years: 1, months: 8 },
     breed: 'Beagle',
-    image: '/images/2.png',
+    image: '/images/dog3.jpg',
     location: 'Palo Alto, CA',
     shelter: 'Bay Area Pet Rescue',
     shelterContact: {
@@ -156,7 +156,7 @@ const PETS = [
     name: 'Bella',
     age: { years: 7, months: 0 },
     breed: 'Domestic Shorthair',
-    image: '/images/4.png',
+    image: '/images/cat3.jpg',
     location: 'Fremont, CA',
     shelter: 'Golden Years Cat Sanctuary',
     shelterContact: {
@@ -181,7 +181,7 @@ const PETS = [
     name: 'Rocky',
     age: { years: 4, months: 0 },
     breed: 'German Shepherd',
-    image: '/images/2.png',
+    image: '/images/dog1.jpg',
     location: 'San Mateo, CA',
     shelter: 'Guardian Angels Rescue',
     shelterContact: {
@@ -206,7 +206,7 @@ const PETS = [
     name: 'Daisy',
     age: { years: 1, months: 3 },
     breed: 'Tabby Cat',
-    image: '/images/4.png',
+    image: '/images/cat1.jpg',
     location: 'Mountain View, CA',
     shelter: 'Whiskers & Paws',
     shelterContact: {
@@ -231,7 +231,7 @@ const PETS = [
     name: 'Thor',
     age: { years: 6, months: 0 },
     breed: 'Husky Mix',
-    image: '/images/2.png',
+    image: '/images/dog2.jpg',
     location: 'Sunnyvale, CA',
     shelter: 'Northern Paws Rescue',
     shelterContact: {
@@ -256,7 +256,7 @@ const PETS = [
     name: 'Mittens',
     age: { years: 3, months: 6 },
     breed: 'Maine Coon Mix',
-    image: '/images/4.png',
+    image: '/images/cat2.jpg',
     location: 'Redwood City, CA',
     shelter: 'Gentle Giants Cat Sanctuary',
     shelterContact: {
@@ -281,7 +281,7 @@ const PETS = [
     name: 'Scout',
     age: { years: 2, months: 0 },
     breed: 'Border Collie',
-    image: '/images/2.png',
+    image: '/images/dog3.jpg',
     location: 'Santa Clara, CA',
     shelter: 'Smart Paws Rescue',
     shelterContact: {
@@ -306,7 +306,7 @@ const PETS = [
     name: 'Oliver',
     age: { years: 5, months: 3 },
     breed: 'Orange Tabby',
-    image: '/images/4.png',
+    image: '/images/cat3.jpg',
     location: 'Milpitas, CA',
     shelter: 'Orange Cat Sanctuary',
     shelterContact: {
@@ -331,7 +331,7 @@ const PETS = [
     name: 'Rosie',
     age: { years: 2, months: 8 },
     breed: 'Poodle Mix',
-    image: '/images/2.png',
+    image: '/images/dog1.jpg',
     location: 'Cupertino, CA',
     shelter: 'Paws & Hearts Rescue',
     shelterContact: {
@@ -356,7 +356,7 @@ const PETS = [
     name: 'Shadow',
     age: { years: 6, months: 6 },
     breed: 'Black Cat',
-    image: '/images/4.png',
+    image: '/images/cat1.jpg',
     location: 'San Jose, CA',
     shelter: 'Midnight Whiskers Sanctuary',
     shelterContact: {
@@ -381,7 +381,7 @@ const PETS = [
     name: 'Duke',
     age: { years: 4, months: 6 },
     breed: 'Boxer',
-    image: '/images/2.png',
+    image: '/images/dog2.jpg',
     location: 'Los Gatos, CA',
     shelter: 'Strong Hearts Dog Rescue',
     shelterContact: {
@@ -406,7 +406,7 @@ const PETS = [
     name: 'Cleo',
     age: { years: 3, months: 0 },
     breed: 'Calico Cat',
-    image: '/images/4.png',
+    image: '/images/cat2.jpg',
     location: 'Campbell, CA',
     shelter: 'Colorful Cats Haven',
     shelterContact: {
@@ -431,7 +431,7 @@ const PETS = [
     name: 'Ace',
     age: { years: 5, months: 0 },
     breed: 'Australian Shepherd',
-    image: '/images/2.png',
+    image: '/images/dog3.jpg',
     location: 'Saratoga, CA',
     shelter: 'Herding Hearts Rescue',
     shelterContact: {
@@ -456,7 +456,7 @@ const PETS = [
     name: 'Princess',
     age: { years: 8, months: 0 },
     breed: 'Ragdoll',
-    image: '/images/4.png',
+    image: '/images/cat3.jpg',
     location: 'Los Altos, CA',
     shelter: 'Royal Felines Sanctuary',
     shelterContact: {
@@ -559,7 +559,8 @@ export default function BrowsePage() {
     
     const petsWithScores = allPets.map(pet => ({
       ...pet,
-      currentMatchScore: scoresById[pet.id]?.compatibility ?? pet.compatibility
+      currentMatchScore: scoresById[pet.id]?.compatibility ?? pet.compatibility,
+      currentDeepScore: scoresById[pet.id]?.deepMatch ?? pet.deepMatch
     }))
     
     // KNN Filter: Only show "nearest neighbors" with match score >= threshold (unless showAllPets is true)
@@ -567,7 +568,13 @@ export default function BrowsePage() {
       ? petsWithScores 
       : petsWithScores.filter(pet => pet.currentMatchScore >= MIN_MATCH_THRESHOLD)
     
-    const sorted = [...filteredPets].sort((a, b) => b.currentMatchScore - a.currentMatchScore)
+    // Sort by BOTH compatibility and deep match - best overall match at top
+    const sorted = [...filteredPets].sort((a, b) => {
+      // Calculate average of both scores for true "best match"
+      const scoreA = (a.currentMatchScore + a.currentDeepScore) / 2
+      const scoreB = (b.currentMatchScore + b.currentDeepScore) / 2
+      return scoreB - scoreA
+    })
     setSortedPets(sorted)
   }, [scoresById, customPets, showAllPets])
 
@@ -789,7 +796,7 @@ export default function BrowsePage() {
       name: newPetForm.name,
       age: { years: parseInt(newPetForm.age) || 2, months: 0 },
       breed: newPetForm.breed,
-      image: newPetForm.image || '/images/2.png', // Default placeholder image for dogs
+      image: newPetForm.image || '/images/dog1.jpg', // Default placeholder image for dogs
       location: newPetForm.location || 'Unknown Location',
       shelter: newPetForm.shelter || 'Community Shelter',
       shelterContact: {
@@ -933,12 +940,14 @@ export default function BrowsePage() {
             {/* Center: Pawsonality Badge */}
             <div className="flex-1 flex justify-center gap-4 items-center">
               {userPawsonality && (
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-full">
-                    <span className="text-3xl">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.emoji}</span>
-                    <span className="text-base font-semibold text-gray-900">{userPawsonality}</span>
+                <div className="flex flex-col items-center gap-1">
+                  <div className="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-full">
+                    <span className="text-2xl">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.emoji}</span>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-bold text-gray-900">{userPawsonality}</span>
+                      <span className="text-xs text-gray-600">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.description}</span>
+                    </div>
                   </div>
-          
                 </div>
               )}
               
