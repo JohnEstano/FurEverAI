@@ -925,27 +925,36 @@ export default function BrowsePage() {
         </div>
       )}
 
+      {/* Image Disclaimer Banner */}
+      <div className="fixed top-0 left-0 right-0 bg-amber-50 border-b border-amber-200 z-50 py-1.5 sm:py-2 px-3 sm:px-4">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-[10px] sm:text-xs text-amber-800 text-center">
+            <span className="font-semibold">📸 Note:</span> Pet images are placeholders for demonstration purposes and may not represent actual pet descriptions.
+          </p>
+        </div>
+      </div>
+
       {/* Fixed Header */}
-      <div className="fixed top-0 left-0 right-0 bg-white z-40 border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+      <div className="fixed top-6 sm:top-8 left-0 right-0 bg-white z-40 border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-2 sm:px-4 py-2 sm:py-4">
+          <div className="flex items-center justify-between gap-2">
             {/* Left: Back Button */}
             <button
               onClick={() => router.push('/')}
-              className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center flex-shrink-0"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center flex-shrink-0"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-700" />
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
             </button>
 
-            {/* Center: Pawsonality Badge */}
-            <div className="flex-1 flex justify-center gap-4 items-center">
+            {/* Center: Pawsonality Badge & Controls */}
+            <div className="flex-1 flex flex-wrap justify-center gap-1 sm:gap-2 lg:gap-4 items-center min-w-0">
               {userPawsonality && (
-                <div className="flex flex-col items-center gap-1">
-                  <div className="flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-full">
-                    <span className="text-2xl">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.emoji}</span>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold text-gray-900">{userPawsonality}</span>
-                      <span className="text-xs text-gray-600">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.description}</span>
+                <div className="flex flex-col items-center gap-0.5 sm:gap-1">
+                  <div className="flex items-center gap-1.5 sm:gap-3 px-2 sm:px-4 py-1 sm:py-2 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-full">
+                    <span className="text-lg sm:text-2xl">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.emoji}</span>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-xs sm:text-sm font-bold text-gray-900 truncate">{userPawsonality}</span>
+                      <span className="text-[10px] sm:text-xs text-gray-600 truncate hidden sm:block">{PAWSONALITY_TYPES[userPawsonality as keyof typeof PAWSONALITY_TYPES]?.description}</span>
                     </div>
                   </div>
                 </div>
@@ -953,24 +962,24 @@ export default function BrowsePage() {
               
               {/* KNN Filter Badge */}
               {!loading && (
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-full">
-                    <span className="text-sm font-medium text-gray-900">
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <div className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 bg-white border border-gray-200 rounded-full">
+                    <span className="text-xs sm:text-sm font-medium text-gray-900 whitespace-nowrap">
                       {showAllPets 
-                        ? `All ${sortedPets.length} pets` 
-                        : `${sortedPets.length} matches`}
+                        ? `All ${sortedPets.length}` 
+                        : `${sortedPets.length} top`}
                     </span>
                     <button
                       onClick={() => setShowAlgorithmInfo('knn')}
                       className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
                     >
-                      <Info className="w-3 h-3 text-gray-500 hover:text-gray-700" />
+                      <Info className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-gray-500 hover:text-gray-700" />
                     </button>
                     <button
                       onClick={() => setShowAllPets(!showAllPets)}
-                      className="ml-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-full transition-colors"
+                      className="ml-1 sm:ml-2 px-2 sm:px-3 py-0.5 sm:py-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-medium rounded-full transition-colors"
                     >
-                      {showAllPets ? 'Filter' : 'Show All'}
+                      {showAllPets ? 'Filter' : 'All'}
                     </button>
                   </div>
                 </div>
@@ -979,28 +988,29 @@ export default function BrowsePage() {
               {/* View Toggle */}
               <button
                 onClick={() => setViewMode(viewMode === 'cards' ? 'grid' : 'cards')}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700 transition-colors"
               >
-                {viewMode === 'cards' ? <Grid3x3 className="w-4 h-4" /> : <LayoutList className="w-4 h-4" />}
-                {viewMode === 'cards' ? 'Grid View' : 'Card View'}
+                {viewMode === 'cards' ? <Grid3x3 className="w-3 h-3 sm:w-4 sm:h-4" /> : <LayoutList className="w-3 h-3 sm:w-4 sm:h-4" />}
+                <span className="hidden xs:inline">{viewMode === 'cards' ? 'Grid' : 'Card'}</span>
               </button>
               
               {/* Add Companion Button */}
               <button
                 onClick={() => setShowAddCompanionDialog(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-sm font-medium text-white transition-colors"
+                className="flex items-center gap-1 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 bg-blue-600 hover:bg-blue-700 rounded-full text-xs sm:text-sm font-medium text-white transition-colors"
               >
-                <Plus className="w-4 h-4" />
-                Add Companion
+                <Plus className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden xs:inline">Add</span>
               </button>
             </div>
 
             {/* Right: Retake Quiz */}
             <button
               onClick={() => router.push('/quiz')}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-sm font-medium text-gray-700 transition-colors flex-shrink-0"
+              className="px-2 sm:px-4 py-1 sm:py-2 bg-gray-100 hover:bg-gray-200 rounded-full text-xs sm:text-sm font-medium text-gray-700 transition-colors flex-shrink-0 whitespace-nowrap"
             >
-              Retake Quiz
+              <span className="hidden sm:inline">Retake</span>
+              <span className="sm:hidden">↺</span>
             </button>
           </div>
         </div>
@@ -1010,29 +1020,29 @@ export default function BrowsePage() {
       <div>
         {sortedPets.length === 0 && !loading && !showAllPets ? (
           /* No Matches Found */
-          <div className="pt-24 pb-8 px-4 max-w-4xl mx-auto">
-            <div className="bg-gray-50 rounded-xl p-12 text-center">
-              <div className="text-6xl mb-4">🔍</div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">No Close Matches Found</h2>
-              <p className="text-gray-600 mb-4">
+          <div className="pt-24 sm:pt-28 pb-6 sm:pb-8 px-3 sm:px-4 max-w-4xl mx-auto">
+            <div className="bg-gray-50 rounded-lg sm:rounded-xl p-6 sm:p-8 lg:p-12 text-center">
+              <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">🔍</div>
+              <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-1.5 sm:mb-2">No Close Matches Found</h2>
+              <p className="text-sm sm:text-base text-gray-600 mb-3 sm:mb-4 px-2">
                 Our KNN algorithm couldn't find pets matching your profile with at least {MIN_MATCH_THRESHOLD}% compatibility.
               </p>
-              <div className="flex gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center">
                 <button
                   onClick={() => setShowAllPets(true)}
-                  className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-colors"
                 >
                   Show All Pets Anyway
                 </button>
                 <button
                   onClick={() => router.push('/quiz')}
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
                 >
                   Retake Quiz
                 </button>
                 <button
                   onClick={() => setShowAddCompanionDialog(true)}
-                  className="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-900 rounded-lg font-medium transition-colors"
+                  className="px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-200 hover:bg-gray-300 text-gray-900 rounded-lg text-sm font-medium transition-colors"
                 >
                   Add a Pet Manually
                 </button>
@@ -1041,8 +1051,8 @@ export default function BrowsePage() {
           </div>
         ) : viewMode === 'grid' ? (
           /* Grid View */
-          <div className="pt-24 pb-8 px-4 max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="pt-24 sm:pt-28 pb-6 sm:pb-8 px-3 sm:px-4 max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
               {sortedPets.map((pet, index) => {
                 const matchScore = scoresById[pet.id]?.compatibility ?? pet.compatibility
                 const deepMatchScore = scoresById[pet.id]?.deepMatch ?? pet.deepMatch
@@ -1051,10 +1061,10 @@ export default function BrowsePage() {
                 return (
                   <div
                     key={pet.id}
-                    className="bg-white border-2 border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all hover:border-blue-300"
+                    className="bg-white border-2 border-gray-200 rounded-lg sm:rounded-xl overflow-hidden hover:shadow-lg transition-all hover:border-blue-300"
                   >
                     {/* Image */}
-                    <div className="relative h-48 w-full">
+                    <div className="relative h-40 sm:h-48 w-full">
                       <Image
                         src={pet.image}
                         alt={pet.name}
@@ -1062,66 +1072,66 @@ export default function BrowsePage() {
                         className="object-cover"
                       />
                       {index === 0 && sortedPets.length > 1 && (
-                        <div className="absolute top-2 left-2 bg-black text-white text-xs font-bold px-3 py-1 rounded-full">
+                        <div className="absolute top-1.5 sm:top-2 left-1.5 sm:left-2 bg-black text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
                           ✨ Best Match
                         </div>
                       )}
                       {(pet as any).isCustom === true && (
-                        <div className="absolute top-2 right-2 bg-green-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        <div className="absolute top-1.5 sm:top-2 right-1.5 sm:right-2 bg-green-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
                           🆕 Added
                         </div>
                       )}
                       {showAllPets && matchScore < MIN_MATCH_THRESHOLD && !((pet as any).isCustom) && (
-                        <div className="absolute bottom-2 right-2 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                          Below Threshold
+                        <div className="absolute bottom-1.5 sm:bottom-2 right-1.5 sm:right-2 bg-orange-500 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
+                          Below {MIN_MATCH_THRESHOLD}%
                         </div>
                       )}
                     </div>
 
                     {/* Content */}
-                    <div className="p-4">
-                      <h3 className="text-lg font-bold text-gray-900 mb-1">{pet.name}, {pet.age.years}</h3>
-                      <p className="text-sm text-gray-600 mb-3">{pet.breed}</p>
+                    <div className="p-3 sm:p-4">
+                      <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-0.5 sm:mb-1">{pet.name}, {pet.age.years}</h3>
+                      <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3">{pet.breed}</p>
 
                       {/* Scores */}
-                      <div className="grid grid-cols-2 gap-2 mb-3">
-                        <div className="bg-blue-50 rounded-lg p-2 text-center">
-                          <div className="flex items-center justify-center gap-1">
-                            <p className="text-xs text-blue-600 font-medium">Match</p>
+                      <div className="grid grid-cols-2 gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+                        <div className="bg-blue-50 rounded-md sm:rounded-lg p-1.5 sm:p-2 text-center">
+                          <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                            <p className="text-[10px] sm:text-xs text-blue-600 font-medium">Match</p>
                             <button onClick={() => setShowAlgorithmInfo('svm')} className="hover:bg-blue-100 rounded-full p-0.5">
-                              <Info className="w-3 h-3 text-blue-400" />
+                              <Info className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-blue-400" />
                             </button>
                           </div>
-                          <p className="text-xl font-bold text-blue-700">{matchScore}%</p>
+                          <p className="text-lg sm:text-xl font-bold text-blue-700">{matchScore}%</p>
                         </div>
-                        <div className="bg-purple-50 rounded-lg p-2 text-center">
-                          <div className="flex items-center justify-center gap-1">
-                            <p className="text-xs text-purple-600 font-medium">Deep</p>
+                        <div className="bg-purple-50 rounded-md sm:rounded-lg p-1.5 sm:p-2 text-center">
+                          <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                            <p className="text-[10px] sm:text-xs text-purple-600 font-medium">Deep</p>
                             <button onClick={() => setShowAlgorithmInfo('ann')} className="hover:bg-purple-100 rounded-full p-0.5">
-                              <Info className="w-3 h-3 text-purple-400" />
+                              <Info className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-purple-400" />
                             </button>
                           </div>
-                          <p className="text-xl font-bold text-purple-700">{deepMatchScore}%</p>
+                          <p className="text-lg sm:text-xl font-bold text-purple-700">{deepMatchScore}%</p>
                         </div>
                       </div>
 
                       {adoptionDays && (
-                        <div className="bg-green-50 rounded-lg p-2 text-center mb-3">
-                          <div className="flex items-center justify-center gap-1">
-                            <p className="text-xs text-green-600 font-medium">Timeline</p>
+                        <div className="bg-green-50 rounded-md sm:rounded-lg p-1.5 sm:p-2 text-center mb-2 sm:mb-3">
+                          <div className="flex items-center justify-center gap-0.5 sm:gap-1">
+                            <p className="text-[10px] sm:text-xs text-green-600 font-medium">Timeline</p>
                             <button onClick={() => setShowAlgorithmInfo('lr')} className="hover:bg-green-100 rounded-full p-0.5">
-                              <Info className="w-3 h-3 text-green-400" />
+                              <Info className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-green-400" />
                             </button>
                           </div>
-                          <p className="text-lg font-bold text-green-700">{adoptionDays} days</p>
+                          <p className="text-base sm:text-lg font-bold text-green-700">{adoptionDays} days</p>
                         </div>
                       )}
 
                       {/* AI Tags from Naive Bayes */}
                       {tagsById[pet.id] && tagsById[pet.id].length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-3">
+                        <div className="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
                           {tagsById[pet.id].slice(0, 4).map((tag, i) => (
-                            <span key={i} className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+                            <span key={i} className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-gray-100 text-gray-700 text-[10px] sm:text-xs rounded-full">
                               {tag}
                             </span>
                           ))}
@@ -1129,13 +1139,13 @@ export default function BrowsePage() {
                       )}
 
                       {/* Buttons */}
-                      <div className="flex gap-2">
+                      <div className="flex gap-1.5 sm:gap-2">
                         <button
                           onClick={() => {
                             setSelectedPet(pet)
                             setShowDetailsDialog(true)
                           }}
-                          className="flex-1 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors"
+                          className="flex-1 py-1.5 sm:py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md sm:rounded-lg text-xs sm:text-sm font-medium transition-colors"
                         >
                           View Details
                         </button>
@@ -1144,9 +1154,9 @@ export default function BrowsePage() {
                             setSelectedPet(pet)
                             setShowContactDialog(true)
                           }}
-                          className="w-10 h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center transition-colors"
+                          className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-600 hover:bg-blue-700 text-white rounded-md sm:rounded-lg flex items-center justify-center transition-colors"
                         >
-                          <Heart className="w-5 h-5" />
+                          <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                         </button>
                       </div>
                     </div>
@@ -1171,13 +1181,13 @@ export default function BrowsePage() {
               <div 
                 key={pet.id} 
                 id={`pet-card-${index}`} 
-                className="h-screen snap-start snap-always flex flex-col items-center justify-center px-4"
+                className="h-screen snap-start snap-always flex flex-col items-center justify-center px-2 sm:px-4"
               >
-                {/* Card Layout - Image Left, Details Right */}
-                <div className={`flex gap-6 mt-15 bg-white rounded-md overflow-hidden max-w-6xl w-full`}>
+                {/* Card Layout - Image Left/Top, Details Right/Bottom */}
+                <div className={`flex flex-col lg:flex-row gap-0 lg:gap-6 mt-24 sm:mt-20 bg-white rounded-lg sm:rounded-xl overflow-hidden max-w-6xl w-full shadow-lg max-h-[85vh] sm:max-h-none`}>
                 
-                  {/* Left Side - Image */}
-                  <div className="relative w-[400px] h-96 flex-shrink-0">
+                  {/* Left/Top Side - Image */}
+                  <div className="relative w-full lg:w-[400px] h-64 sm:h-72 lg:h-96 flex-shrink-0">
                     <Image
                       src={pet.image}
                       alt={pet.name}
@@ -1188,111 +1198,111 @@ export default function BrowsePage() {
                     
                     {/* Best Match Badge - Top Left */}
                     {isBestMatch && (
-                      <div className="absolute top-4 left-4 bg-black text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                      <div className="absolute top-2 sm:top-4 left-2 sm:left-4 bg-black text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg">
                         ✨ Best Match
                       </div>
                     )}
 
                     {/* Added Badge - Top Right */}
                     {(pet as any).isCustom === true && (
-                      <div className="absolute top-4 right-4 bg-green-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-green-600 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg">
                         🆕 Added
                       </div>
                     )}
                     
                     {/* Pet Info Overlay - Bottom Left */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4">
-                      <div className="flex items-center gap-1 mb-2">
-                        <MapPin className="w-3 h-3 text-white" />
-                        <span className="text-xs font-medium text-white">{pet.location}</span>
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-2 sm:p-4">
+                      <div className="flex items-center gap-1 mb-1 sm:mb-2">
+                        <MapPin className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-white" />
+                        <span className="text-[10px] sm:text-xs font-medium text-white">{pet.location}</span>
                       </div>
-                      <h2 className="text-2xl font-bold text-white mb-1">
+                      <h2 className="text-lg sm:text-2xl font-bold text-white mb-0.5 sm:mb-1">
                         {pet.name}, {pet.age.years}
                       </h2>
-                      <p className="text-sm text-white/90 mb-1">{pet.breed}</p>
-                      <p className="text-xs text-white/80">{pet.distance}</p>
+                      <p className="text-xs sm:text-sm text-white/90 mb-0.5 sm:mb-1">{pet.breed}</p>
+                      <p className="text-[10px] sm:text-xs text-white/80">{pet.distance}</p>
                     </div>
                     
                     {/* Below Threshold Badge - Bottom Right */}
                     {showAllPets && matchScore < MIN_MATCH_THRESHOLD && !((pet as any).isCustom) && (
-                      <div className="absolute bottom-20 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-                        ⚠️ Below {MIN_MATCH_THRESHOLD}% Threshold
+                      <div className="absolute bottom-16 sm:bottom-20 right-2 sm:right-4 bg-orange-500 text-white text-[10px] sm:text-xs font-bold px-2 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg">
+                        ⚠️ Below {MIN_MATCH_THRESHOLD}%
                       </div>
                     )}
                   </div>
 
-                  {/* Right Side - Details */}
-                  <div className="flex-1 p-6 max-h-96 relative" style={{ overflowY: 'auto', overflowX: 'visible' }}>
+                  {/* Right/Bottom Side - Details */}
+                  <div className="flex-1 p-3 sm:p-4 lg:p-6 max-h-[40vh] lg:max-h-96 relative overflow-y-auto">
                     {/* Heart Button - Top Right */}
                     <button
                       onClick={() => {
                         setSelectedPet(pet)
                         setShowContactDialog(true)
                       }}
-                      className="absolute top-4 right-4 w-12 h-12 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-all group z-10"
+                      className="absolute top-2 sm:top-3 lg:top-4 right-2 sm:right-3 lg:right-4 w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-all group z-10"
                     >
-                      <Heart className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
+                      <Heart className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-white group-hover:scale-110 transition-transform" />
                     </button>
 
                     {/* Match Scores - No Background */}
-                    <div className="flex gap-8 mb-4 pr-16">
-                      <div>
-                        <div className="flex items-center gap-1 mb-1">
-                          <span className="text-sm font-medium text-gray-500">Match</span>
+                    <div className="flex gap-3 sm:gap-4 lg:gap-8 mb-3 sm:mb-4 pr-12 sm:pr-14 lg:pr-16 overflow-x-auto">
+                      <div className="flex-shrink-0">
+                        <div className="flex items-center gap-1 mb-0.5 sm:mb-1">
+                          <span className="text-[10px] sm:text-xs lg:text-sm font-medium text-gray-500">Match</span>
                           <button
                             onClick={() => setShowAlgorithmInfo('svm')}
                             className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
                           >
-                            <Info className="w-3 h-3 text-gray-400 hover:text-blue-600" />
+                            <Info className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-gray-400 hover:text-blue-600" />
                           </button>
                         </div>
                         <div className="flex items-center gap-0.5">
-                          <p className="text-4xl font-bold text-gray-900">{matchScore}</p>
-                          <span className="text-4xl font-bold text-gray-900">%</span>
+                          <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">{matchScore}</p>
+                          <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">%</span>
                         </div>
                       </div>
-                      <div>
-                        <div className="flex items-center gap-1 mb-1">
-                          <span className="text-sm font-medium text-gray-500">Deep</span>
+                      <div className="flex-shrink-0">
+                        <div className="flex items-center gap-1 mb-0.5 sm:mb-1">
+                          <span className="text-[10px] sm:text-xs lg:text-sm font-medium text-gray-500">Deep</span>
                           <button
                             onClick={() => setShowAlgorithmInfo('ann')}
                             className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
                           >
-                            <Info className="w-3 h-3 text-gray-400 hover:text-purple-600" />
+                            <Info className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-gray-400 hover:text-purple-600" />
                           </button>
                         </div>
                         <div className="flex items-center gap-0.5">
-                           <p className="text-4xl font-bold text-gray-900">{deepMatchScore}</p>
-                          <span className="text-4xl font-bold text-gray-900">%</span>
+                           <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">{deepMatchScore}</p>
+                          <span className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">%</span>
                         </div>
                       </div>
                       {adoptionTimeline[pet.id] && (
-                        <div>
-                          <div className="flex items-center gap-1 mb-1">
-                            <span className="text-sm font-medium text-gray-500">Timeline</span>
+                        <div className="flex-shrink-0">
+                          <div className="flex items-center gap-1 mb-0.5 sm:mb-1">
+                            <span className="text-[10px] sm:text-xs lg:text-sm font-medium text-gray-500">Timeline</span>
                             <button
                               onClick={() => setShowAlgorithmInfo('lr')}
                               className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
                             >
-                              <Info className="w-3 h-3 text-gray-400 hover:text-green-600" />
+                              <Info className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-gray-400 hover:text-green-600" />
                             </button>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <p className="text-4xl font-bold text-green-600">{adoptionTimeline[pet.id]}</p>
-                            <span className="text-sm font-medium text-gray-600">days</span>
+                          <div className="flex items-center gap-0.5 sm:gap-1">
+                            <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600">{adoptionTimeline[pet.id]}</p>
+                            <span className="text-xs sm:text-sm font-medium text-gray-600">days</span>
                           </div>
                         </div>
                       )}
                     </div>
 
                     {/* AI Tags - Only show if available */}
-                    <div className="mb-4">
+                    <div className="mb-2 sm:mb-3 lg:mb-4">
                       {tagsById[pet.id] && tagsById[pet.id].length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-2">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
                           {tagsById[pet.id].map((tag, i) => (
                             <span
                               key={i}
-                              className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full"
+                              className="px-2 sm:px-3 py-1 sm:py-1.5 bg-gray-100 text-gray-700 text-[10px] sm:text-xs font-medium rounded-full"
                             >
                               {tag}
                             </span>
@@ -1300,22 +1310,22 @@ export default function BrowsePage() {
                         </div>
                       )}
                       {tagsById[pet.id] && tagsById[pet.id].length > 0 && (
-                        <div className="flex items-center gap-1 mt-2">
-                          <span className="text-xs text-gray-500">AI Tags</span>
+                        <div className="flex items-center gap-1 mt-1 sm:mt-2">
+                          <span className="text-[10px] sm:text-xs text-gray-500">AI Tags</span>
                           <button
                             onClick={() => setShowAlgorithmInfo('nb')}
                             className="hover:bg-gray-100 rounded-full p-0.5 transition-colors"
                           >
-                            <Info className="w-3 h-3 text-gray-400 hover:text-green-600" />
+                            <Info className="w-2.5 sm:w-3 h-2.5 sm:h-3 text-gray-400 hover:text-green-600" />
                           </button>
                         </div>
                       )}
                     </div>
 
                     {/* About Section */}
-                    <div className="mb-4">
-                      <h3 className="text-sm font-bold text-gray-900 mb-2">About</h3>
-                      <p className="text-sm text-gray-700 leading-relaxed">{pet.description}</p>
+                    <div className="mb-2 sm:mb-3 lg:mb-4">
+                      <h3 className="text-xs sm:text-sm font-bold text-gray-900 mb-1 sm:mb-2">About</h3>
+                      <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">{pet.description}</p>
                     </div>
 
 
@@ -1323,25 +1333,25 @@ export default function BrowsePage() {
                     {/* Collapse/Expand Button */}
                     <button
                       onClick={() => toggleExpanded(pet.id)}
-                      className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors mb-4"
+                      className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-medium text-gray-700 hover:text-gray-900 transition-colors mb-2 sm:mb-3 lg:mb-4"
                     >
                       {expandedPets[pet.id] ? 'Show Less' : 'Show More'}
-                      <ChevronDown className={`w-4 h-4 transition-transform ${expandedPets[pet.id] ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-3.5 sm:w-4 h-3.5 sm:h-4 transition-transform ${expandedPets[pet.id] ? 'rotate-180' : ''}`} />
                     </button>
 
                     {/* Collapsible Content */}
                     {expandedPets[pet.id] && (
-                      <div className="space-y-4">
+                      <div className="space-y-2 sm:space-y-3 lg:space-y-4">
                         {/* Personality */}
                         <div>
-                          <h3 className="text-sm font-bold text-gray-900 mb-2">Personality</h3>
-                          <p className="text-sm text-gray-700 leading-relaxed">{pet.personality}</p>
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-900 mb-1 sm:mb-2">Personality</h3>
+                          <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">{pet.personality}</p>
                         </div>
 
                         {/* Ideal Home */}
                         <div>
-                          <h3 className="text-sm font-bold text-gray-900 mb-2">Ideal Home</h3>
-                          <p className="text-sm text-gray-700 leading-relaxed">{pet.idealHome}</p>
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-900 mb-1 sm:mb-2">Ideal Home</h3>
+                          <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">{pet.idealHome}</p>
                         </div>
 
                        
@@ -1352,9 +1362,9 @@ export default function BrowsePage() {
                             setSelectedPet(pet)
                             setShowContactDialog(true)
                           }}
-                          className="w-full py-3 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                          className="w-full py-2.5 sm:py-3 bg-blue-600 text-white rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-1.5 sm:gap-2"
                         >
-                          <Phone className="w-4 h-4" />
+                          <Phone className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
                           Contact Shelter
                         </button>
                       </div>
@@ -1364,15 +1374,15 @@ export default function BrowsePage() {
 
                 {/* Scroll Indicator - Only for best match */}
                 {isBestMatch && sortedPets.length > 1 && (
-                  <div className="mt-4 text-center">
+                  <div className="mt-2 sm:mt-4 text-center">
                     <button
                       onClick={handleNext}
-                      className="inline-flex flex-col items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors animate-pulse"
+                      className="inline-flex flex-col items-center gap-1 sm:gap-2 text-gray-600 hover:text-blue-600 transition-colors animate-pulse"
                     >
-                      <p className="text-sm font-medium">
+                      <p className="text-xs sm:text-sm font-medium px-4">
                         Scroll to view more pets like {pet.name}
                       </p>
-                      <ChevronDown className="w-6 h-6" />
+                      <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6" />
                     </button>
                   </div>
                 )}
@@ -1384,22 +1394,22 @@ export default function BrowsePage() {
 
         {/* Navigation Arrows - Far Right, Close Together - Only in Card View */}
         {viewMode === 'cards' && (
-        <div className="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-50">
+        <div className="fixed right-2 sm:right-4 lg:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-1.5 sm:gap-2 z-50">
           {currentIndex > 0 && (
             <button
               onClick={handlePrevious}
-              className="w-12 h-12 rounded-full bg-black flex items-center justify-center hover:bg-gray-800 transition-all"
+              className="w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-full bg-black flex items-center justify-center hover:bg-gray-800 transition-all shadow-lg"
             >
-              <ChevronUp className="w-6 h-6 text-white" />
+              <ChevronUp className="w-5 h-5 sm:w-5.5 sm:h-5.5 lg:w-6 lg:h-6 text-white" />
             </button>
           )}
 
           {currentIndex < sortedPets.length - 1 && (
             <button
               onClick={handleNext}
-              className="w-12 h-12 rounded-full bg-black flex items-center justify-center hover:bg-gray-800 transition-all"
+              className="w-10 h-10 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-full bg-black flex items-center justify-center hover:bg-gray-800 transition-all shadow-lg"
             >
-              <ChevronDown className="w-6 h-6 text-white" />
+              <ChevronDown className="w-5 h-5 sm:w-5.5 sm:h-5.5 lg:w-6 lg:h-6 text-white" />
             </button>
           )}
         </div>
